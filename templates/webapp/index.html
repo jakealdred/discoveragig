@@ -1,0 +1,77 @@
+{% extends 'webapp/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Index{% endblock %}
+
+{% block body_block %}
+
+    <div class="row placeholders">
+    
+        <div class="col-xs-12 col-sm-4 placeholder">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Bands</h3>
+                </div>
+            </div>
+
+            {% if bands %}
+                <ul class="list-group">
+                    {% for band in bands %}
+                        <li class="list-group-item">{{ band.city }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <strong>There are no bands to show.</strong>
+            {% endif %}
+        </div>
+        
+        <div class="col-xs-12 col-sm-4 placeholder">
+            <div class="panel panel-primary">
+                <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+
+                <form class="form-signin" role="form" method="post" action=".">
+                    {% csrf_token %}
+
+                    <h3 class="form-signin-heading">Please Login</h3>
+                    <input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text" required autofocus=""/>
+                    <input type="password" class="form-control" placeholder="Password" id="id_password" name="password" type="password" required />
+
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" value="Submit" />Login</button>
+                </form>
+            </div>
+            
+            <div class="panel panel-primary">
+                <div class="btn-group">
+                  <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                    Sign-Up <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="register/fan">Fan</a></li>
+                    <li><a href="register/band">Band</a></li>
+                  </ul>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="col-xs-12 col-sm-4 placeholder">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Gigs</h3>
+                </div>
+            </div>
+
+            {% if events %}
+                <ul class="list-group">
+                    {% for event in events %}
+                     <li class="list-group-item">{{ event.name }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <strong>There are no gigs present.</strong>
+            {% endif %}
+        </div>
+        
+    </div>
+{% endblock %} 
