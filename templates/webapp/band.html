@@ -1,0 +1,11 @@
+{% extends 'webapp/base.html' %}
+
+{% block title %} Band's {{band.name}} page{% endblock %}
+
+{% block body_block %}
+
+{% if band %}
+	<h1>{{ band.name }}</h1>
+{% endif %}
+
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.models import User
 from webapp.models import BandProfile, FanProfile, Achievement, Event, Comment
 from webapp.forms import UserForm, BandProfileForm, FanProfileForm
 from django.http import HttpResponseRedirect
@@ -106,3 +107,38 @@ def event(request, event_name):
     else:
         return HttpResponseRedirect('/create_event/')
     return render(request, 'webapp/event.html', context_dict)
+
+
+def fan(request, username):
+    context_dict = {}
+    try:
+        user = User.objects.get(username=username)
+        profile = FanProfile.objects.get(user=user)
+    except:
+        profile = None
+
+    if profile:
+        context_dict['username'] = user.username
+        context_dict['profile'] = profile
+        if user == request.user:
+            context_dict['logged_in'] = True
+    else:
+        return HttpResponseRedirect('/register/fan/')
+    return render(request, 'webapp/fan.html', context_dict)
+
+
+def band(request, username):
+    context_dict = {}
+    try:
+        user = User.objects.get(username=username)
+        profile = BandProfile.objects.get(user=user)
+    except:
+        profile = None
+
+    if profile:
+        context_dict['band'] = profile
+        if user == request.user:
+            context_dict['logged_in'] = True
+    else:
+        return HttpResponseRedirect('/register/band/')
+    return render(request, 'webapp/band.html', context_dict)
