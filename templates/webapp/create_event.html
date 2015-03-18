@@ -1,0 +1,16 @@
+{% extends 'webapp/base.html' %}
+
+{% block title %}Create an event{% endblock %}
+
+{% block body_block %}
+	{% if error %}
+		<h1>{{error}}</h1>
+	{% endif %}
+	{% if event_form %}
+        <form id="create_event" method="post" action="/create_event/" enctype="multipart/form-data">
+        	{% csrf_token %}
+        	{{ event_form.as_p }}
+            <input type="submit" name="submit" value="Create" />
+        </form>
+    {% endif %}
+{% endblock %}

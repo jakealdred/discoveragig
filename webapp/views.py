@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from webapp.models import BandProfile, FanProfile, Achievement, Event, Comment
-from webapp.forms import UserForm, BandProfileForm, FanProfileForm
+from webapp.forms import UserForm, BandProfileForm, FanProfileForm, EventForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -65,7 +65,7 @@ def register(request, user_type):
                 profile.picture = request.FILES['picture']
 
             profile.save()
-
+            registered = True
             # Auto login.
             user_login(request)
         else:
@@ -83,6 +83,7 @@ def register(request, user_type):
             fan_form = FanProfileForm()
             context_dict['fan_form'] = fan_form
     
+    context_dict['registered'] = registered
     context_dict['user_form'] = user_form
     return render(request, 'webapp/register.html', context_dict)
 
@@ -142,3 +143,37 @@ def band(request, username):
     else:
         return HttpResponseRedirect('/register/band/')
     return render(request, 'webapp/band.html', context_dict)
+
+
+@login_required
+def create_event(request):
+    context_dict = {}
+
+    try:
+        user = request.user
+        band = BandProfile.objects.get(user=user)
+    except:
+        band = None
+
+    if request.method != 'GET':
+        print 'post'
+        if band:
+            event_form = EventForm(data=request.POST)
+            event = event_form.save(commit=False)
+            event.band = band
+
+            if 'picture' in request.FILES:
+                event.picture = request.FILES['picture']
+
+            event.save()
+
+            return HttpResponseRedirect('/event/%s' % event.slug)
+
+    else:
+        if band:
+            event_form = EventForm()
+            context_dict['event_form'] = event_form
+        else:
+            context_dict['error'] = 'Only bands can create new events.'
+
+    return render(request, 'webapp/create_event.html', context_dict)
