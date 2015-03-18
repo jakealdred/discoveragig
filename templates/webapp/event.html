@@ -6,6 +6,17 @@
 {% if event %}
 
 	<h2>{{event.name}}</h2>
+	<hr>
+	<h4>Comments</h4>
+	{% if comments %}
+		{% for comment in comments %}
+			<p>
+				User:{{ comment.user }}<br/>
+				Date:{{ comment.date }}<br/>
+				Text:{{ comment.text }}
+			</p>
+		{% endfor %}
+	{% endif %}
 
 {% endif %}
 {% endblock %}

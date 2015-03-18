@@ -26,7 +26,7 @@ class FanProfileForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ('name', 'city', 'price', 'venue')
+        fields = ('name', 'city', 'website', 'picture', 'price', 'venue')
 
 
 class CommentForm(forms.ModelForm):

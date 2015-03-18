@@ -61,6 +61,8 @@ class Event(models.Model):
     venue = models.CharField(max_length=128)
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
+    picture = models.ImageField(upload_to='profile_images', blank=True)
+    website = models.URLField(blank=True)
     slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):

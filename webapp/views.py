@@ -66,6 +66,7 @@ def register(request, user_type):
 
             profile.save()
             registered = True
+
             # Auto login.
             user_login(request)
         else:
@@ -96,12 +97,18 @@ def user_logout(request):
 
 def event(request, event_name):
     context_dict = {}
+
     try:
         event = Event.objects.get(slug=event_name)
     except:
         event = None
 
     if event:
+        try:
+            comments = Comment.objects.filter(event=event)
+            context_dict['comments'] = comments
+        except:
+            pass
         rating = event.rating
         context_dict['event'] = event
         context_dict['rating'] = rating
@@ -148,7 +155,6 @@ def band(request, username):
 @login_required
 def create_event(request):
     context_dict = {}
-
     try:
         user = request.user
         band = BandProfile.objects.get(user=user)
@@ -168,7 +174,6 @@ def create_event(request):
             event.save()
 
             return HttpResponseRedirect('/event/%s' % event.slug)
-
     else:
         if band:
             event_form = EventForm()
