@@ -65,6 +65,8 @@ def register(request, user_type):
 
             profile.save()
 
+            # Auto login.
+            user_login(request)
         else:
             print user_form.errors, form.errors
 
@@ -81,12 +83,26 @@ def register(request, user_type):
             context_dict['fan_form'] = fan_form
     
     context_dict['user_form'] = user_form
-    return render(request,
-            'webapp/register.html',
-            context_dict)
+    return render(request, 'webapp/register.html', context_dict)
 
 
 @login_required
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+
+def event(request, event_name):
+    context_dict = {}
+    try:
+        event = Event.objects.get(slug=event_name)
+    except:
+        event = None
+
+    if event:
+        rating = event.rating
+        context_dict['event'] = event
+        context_dict['rating'] = rating
+    else:
+        return HttpResponseRedirect('/create_event/')
+    return render(request, 'webapp/event.html', context_dict)

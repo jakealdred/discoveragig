@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.template.defaultfilters import slugify
 from webapp.data_choices import TITLES, ACHIEVEMENTS, CITIES, GENRES
 
 class Rating():
@@ -53,13 +54,18 @@ class FanProfile(models.Model):
 
 class Event(models.Model):
     band = models.ForeignKey(BandProfile) # Events are created by bands.
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, unique=True)
     price = models.FloatField(default=0.0)
     rating = Rating()
     city = models.CharField(max_length=2, choices=CITIES)
     venue = models.CharField(max_length=128)
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
+    slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Event, self).save(*args, **kwargs)
         
     def __unicode__(self):
         return self.name

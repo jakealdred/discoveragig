@@ -1,10 +1,10 @@
 import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tp.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'discoveragig.settings')
 
 import django
 django.setup()
 
-from app.models import BandProfile, FanProfile, Achievement, Event, Comment, Feedback, Rating
+from webapp.models import BandProfile, FanProfile, Achievement, Event, Comment, Feedback, Rating
 from django.contrib.auth.models import User
 
 

@@ -13,8 +13,14 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='event',
-            name='views',
-            field=models.IntegerField(default=0),
+            name='slug',
+            field=models.SlugField(default='', unique=True),
+            preserve_default=False,
+        ),
+        migrations.AlterField(
+            model_name='event',
+            name='name',
+            field=models.CharField(unique=True, max_length=128),
             preserve_default=True,
         ),
     ]
