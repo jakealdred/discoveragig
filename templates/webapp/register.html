@@ -2,33 +2,49 @@
 
 {% block title %}Register{% endblock %}
 
-{% block body_block %}
-        <h1>Register</h1>
+{% block page_header %}Register{% endblock %}
 
-        {% if registered %}
-        <strong>Thank you for registering!</strong>
-        <a href="/">Return to the homepage.</a><br />
-        {% else %}
-        <strong>Register here!</strong><br />
-
-        <form id="user_form" method="post" action="."
-                enctype="multipart/form-data">
+{% block main_body %}
+    <form id="user_form" method="post" action="." enctype="multipart/form-data">
+        <div class="row">
+                <!-- Missing city and genre select inputs. Not working!!!-->
 
             {% csrf_token %}
+            <div class="col-lg-6">
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+                    <input type="text" class="form-control" name="username" placeholder="Username">
+                </div>
 
-            <!-- Display each form. The as_p method wraps each element in a paragraph
-                 (<p>) element. This ensures each element appears on a new line,
-                 making everything look neater. -->
-            {{ user_form.as_p }}
-            {% if band_form %}
-                {{ band_form.as_p }}
-            {% endif %}
-            {% if fan_form %}
-                {{ fan_form.as_p }}
-            {% endif %}
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></span>
+                    <input type="email" class="form-control" name="email" placeholder="Email">
+                </div>
 
-            <!-- Provide a button to click to submit the form. -->
-            <input type="submit" name="submit" value="Register" />
-        </form>
-        {% endif %}
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+                    <input type="password" class="form-control" name="password" placeholder="Password">
+                </div>
+
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="fa fa-home fa-fw"></i></span>
+                    <input type="text" class="form-control" name="website" placeholder="Website">
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+
+                <div class="form-group">
+                    <input type="file" name="picture">
+                </div>   
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-5"></div>
+            <div class="col-lg-2">
+                <button type="submit" name="submit" class="btn btn-primary btn-lg btn-block">Register</button>
+            </div>
+            <div class="col-lg-5"></div>
+        </div>
+    </form>
 {% endblock %}

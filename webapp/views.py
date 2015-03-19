@@ -46,6 +46,7 @@ def register(request, user_type):
     context_dict = {}
 
     if request.method == 'POST':
+        print request.POST
         form = None
         user_form = UserForm(data=request.POST)
         if user_type == 'band':
@@ -105,7 +106,7 @@ def event(request, event_name):
 
     if event:
         try:
-            comments = Comment.objects.filter(event=event)
+            comments = Comment.objects.filter(event=event).order_by('date')
             context_dict['comments'] = comments
         except:
             pass
@@ -182,3 +183,23 @@ def create_event(request):
             context_dict['error'] = 'Only bands can create new events.'
 
     return render(request, 'webapp/create_event.html', context_dict)
+
+
+# Sends context info to all the templates
+def get_context_info(request):
+
+    context = {}
+    user = request.user
+    context['user'] = user
+    try:
+        fan = FanProfile.objects.get(user=user)
+        context['fan_profile'] = fan
+    except:
+        pass
+    try:
+        band = BandProfile.objects.get(user=user)
+        context['band_profile'] = band
+    except:
+        pass
+
+    return context
