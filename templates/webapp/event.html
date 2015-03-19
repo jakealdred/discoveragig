@@ -2,21 +2,67 @@
 
 {% block title %}{% if event %}{{ event.name }}{%else%}Event does not exist.{% endif %}{% endblock %}
 
-{% block body_block %}
+{% block page_header %}{{event.name}}{% endblock %}
+
+{% block main_body %}
 {% if event %}
-
-	<h2>{{event.name}}</h2>
-	<hr>
-	<h4>Comments</h4>
-	{% if comments %}
-		{% for comment in comments %}
-			<p>
-				User:{{ comment.user }}<br/>
-				Date:{{ comment.date }}<br/>
-				Text:{{ comment.text }}
-			</p>
-		{% endfor %}
-	{% endif %}
-
+	<div class="row">
+		<div class="col-lg-8">
+			text
+		</div>
+		<div class="col-lg-4">
+			<div class="chat-panel panel panel-default">
+                <div class="panel-heading text-center">
+                    <i class="fa fa-comments fa-2x pull-left"></i>
+                    <h3 style="margin:0"> Leave a comment!</h3>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <ul class="chat">
+                    	{% for comment in comments %}
+                        <li class="left clearfix">
+                            <span class="chat-img pull-left">
+                            	{% if comment.user_avatar %}
+									<img src="/media/{{ comment.user_avatar }}" width="50" height="50" alt="User Avatar" class="img-circle" />
+								{% else %}
+									<img src="/static/img/user_avatar.png" width="50" height="50" alt="No Avatar" class="img-circle">
+								{% endif %}
+                            </span>
+                            <div class="chat-body clearfix">
+                                <div class="header">
+                                    <strong class="primary-font"><a href="/fan/{{ comment.user.username }}">{{ comment.user.username }}</a></strong>
+                                    <small class="pull-right text-muted">
+                                        <i class="fa fa-clock-o fa-fw"></i> {{ comment.date }}
+                                    </small>
+                                </div>
+                                <p>
+                                	{{ comment.text }}
+                                </p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!-- /.panel-body -->
+                <div class="panel-footer">
+                    <div class="input-group">
+                    	<form id="comment" method="post" action=".">
+                    	{% csrf_token %}
+	                        <input id="btn-input" type="text" name="text" class="form-control input-sm" placeholder="Type your message here..." />
+	                        <span class="input-group-btn">
+	                            <button type="submit" class="btn btn-warning btn-sm" id="btn-chat">
+	                                Send
+	                            </button>
+	                        </span>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.panel-footer -->
+            </div>
+            <!-- end of chat panel-->
+		</div>
+		<!-- end of column -->
+	</div>
+	<!-- end of row -->
 {% endif %}
 {% endblock %}

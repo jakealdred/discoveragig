@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from webapp.models import BandProfile, FanProfile, Achievement, Event, Comment
-from webapp.forms import UserForm, BandProfileForm, FanProfileForm, EventForm
+from webapp.forms import UserForm, BandProfileForm, FanProfileForm, EventForm, CommentForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -46,7 +46,6 @@ def register(request, user_type):
     context_dict = {}
 
     if request.method == 'POST':
-        print request.POST
         form = None
         user_form = UserForm(data=request.POST)
         if user_type == 'band':
@@ -103,6 +102,19 @@ def event(request, event_name):
         event = Event.objects.get(slug=event_name)
     except:
         event = None
+
+    if request.method == 'POST':
+        comment_form = None
+        try:
+            comment_form = CommentForm(data=request.POST)
+        except:
+            pass
+
+        if comment_form:
+            comment = comment_form.save(commit=False)
+            comment.event = event
+            comment.user = request.user
+            comment.save()
 
     if event:
         try:
@@ -163,18 +175,18 @@ def create_event(request):
         band = None
 
     if request.method != 'GET':
-        print 'post'
         if band:
             event_form = EventForm(data=request.POST)
-            event = event_form.save(commit=False)
-            event.band = band
+            if event_form.is_valid():
+                event = event_form.save(commit=False)
+                event.band = band
 
-            if 'picture' in request.FILES:
-                event.picture = request.FILES['picture']
+                if 'picture' in request.FILES:
+                    event.picture = request.FILES['picture']
 
-            event.save()
+                event.save()
 
-            return HttpResponseRedirect('/event/%s' % event.slug)
+                return HttpResponseRedirect('/event/%s' % event.slug)
     else:
         if band:
             event_form = EventForm()

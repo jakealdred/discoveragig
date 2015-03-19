@@ -82,8 +82,24 @@ class Achievement(models.Model):
         return self.name
 
 
+def get_avatar():
+    profile = None
+    try:
+        profile = FanProfile.objects.get(user=user)
+    except:
+        pass
+    try:
+        profile = BandProfile.objects.get(user=user)
+    except:
+        pass
+    if not profile:
+        return None
+    return profile.picture
+
+
 class Comment(models.Model):
     user = models.ForeignKey(User)
+    user_avatar = get_avatar()
     event = models.ForeignKey(Event)
     date = models.DateField(default=timezone.now)
     text = models.TextField(max_length=1024)
