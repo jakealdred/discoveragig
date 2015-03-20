@@ -10,7 +10,7 @@
     <meta name="author" content="">
 
     <title>{% block title %}{% endblock %}</title>
-
+	{% load staticfiles %}
     <!-- Bootstrap Core CSS -->
     <link href="{{STATIC_URL}}css/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -40,7 +40,10 @@
 	    <!-- Navigation -->
 	    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 	        <div class="navbar-header">
-	            <a class="navbar-brand" href="{% url 'index' %}">Home</a>
+	            <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static "img/logo.jpg" %}"></a>  
+	        </div>
+	        <div class=navbar-header">
+	        	<a class="navbar-brand" href="{% url 'index' %}">Discoveragig</a>
 	        </div>
 	        <!-- /.navbar-header -->
 
