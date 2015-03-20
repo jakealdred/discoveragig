@@ -218,6 +218,7 @@ def fan(request, username):
 
     if fan:
         context_dict['fan'] = fan
+        context_dict['profile'] = profile
         if user == request.user:
             context_dict['logged_in'] = True
     else:
