@@ -102,20 +102,16 @@ def edit_profile(request):
     context_dict = {}
     user = request.user
     if request.method == 'POST':
-        print 'post'
         user_profile_form = UserProfileForm(data=request.FILES)
-        print '1'
 
         # Tries to retrieve UserProfile
         try:
             user_profile = UserProfile.objects.get(user=user)
-            print '2'
         except:
             user_profile = user_profile_form.save(commit=False)
             user_profile.user = user
         
         if user_profile_form.is_valid():
-            print 'valid'
 
             if 'picture' in request.FILES:
                 user_profile.picture = request.FILES['picture']
@@ -230,7 +226,12 @@ def fan(request, username):
 
 
 def band(request, username):
+
     context_dict = {}
+
+    if request.method == 'POST':
+        pass
+
     try:
         user = User.objects.get(username=username)
         profile = UserProfile.objects.get(user=user)
@@ -285,6 +286,24 @@ def create_event(request):
 def get_context_info(request):
 
     context = {}
+
+    # Current user info
+    try:
+        user = request.user
+        user_profile = UserProfile(user=user)
+    except:
+        pass
+    try:
+        profile = FanProfile(profile=user_profile)
+        context_dict['user_type'] = 'fan'
+    except:
+        pass
+    try:
+        profile = BandProfile(profile=user_profile)
+        context_dict['user_type'] ='band'
+    except:
+        pass
+
     # Lists of bands and fans
     bands = BandProfile.objects.all()
     context['bands'] = bands

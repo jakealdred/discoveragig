@@ -27,8 +27,8 @@ class Rating():
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     name = models.CharField(max_length=32)
-    city = models.CharField(max_length=2, choices=CITIES)
-    genre = models.CharField(max_length=16, choices=GENRES)
+    city = models.CharField(max_length=2,)
+    genre = models.CharField(max_length=16,)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     website = models.URLField(blank=True)
 
@@ -49,7 +49,7 @@ class BandProfile(models.Model):
 class FanProfile(models.Model):
     profile = models.OneToOneField(UserProfile)
     xp = models.IntegerField(default=0)
-    title = models.CharField(max_length=2, choices=TITLES)
+    title = models.CharField(max_length=2,)
     mood = models.TextField(max_length=256)
         
     def __unicode__(self):
@@ -61,7 +61,7 @@ class Event(models.Model):
     name = models.CharField(max_length=128, unique=True)
     price = models.FloatField(default=0.0)
     rating = Rating()
-    city = models.CharField(max_length=2, choices=CITIES)
+    city = models.CharField(max_length=2,)
     venue = models.CharField(max_length=128)
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
@@ -79,7 +79,7 @@ class Event(models.Model):
 
 class Achievement(models.Model):
     fan = models.ForeignKey(FanProfile)
-    name = models.CharField(max_length=2, choices=ACHIEVEMENTS)
+    name = models.CharField(max_length=2,)
     xp = models.IntegerField(default=5)
 
     def __unicode__(self):
