@@ -8,7 +8,7 @@
 {% if event %}
 	<div class="row">
 		<div class="col-lg-8">
-			text
+
 		</div>
 		<div class="col-lg-4">
 			<div class="chat-panel panel panel-default">
@@ -22,15 +22,19 @@
                     	{% for comment in comments %}
                         <li class="left clearfix">
                             <span class="chat-img pull-left">
-                            	{% if comment.user_avatar %}
-									<img src="/media/{{ comment.user_avatar }}" width="50" height="50" alt="User Avatar" class="img-circle" />
+                            	{% if comment.user.picture %}
+									<img src="/media/{{ comment.user.picture }}" width="50" height="50" alt="User Avatar" class="img-circle" />
 								{% else %}
 									<img src="/static/img/user_avatar.png" width="50" height="50" alt="No Avatar" class="img-circle">
 								{% endif %}
                             </span>
                             <div class="chat-body clearfix">
                                 <div class="header">
-                                    <strong class="primary-font"><a href="/fan/{{ comment.user.username }}">{{ comment.user.username }}</a></strong>
+                                	{% if comment.user in band_profiles %}
+                                    <strong class="primary-font"><a href="{% url 'band' comment.user.user.username %}">{{ comment.user.user.username }}</a></strong>
+                                    {% elif comment.user in user_profiles %}
+                                    <strong class="primary-font"><a href="{% url 'fan' comment.user.user.username %}">{{ comment.user.user.username }}</a></strong>
+                                    {% endif %}
                                     <small class="pull-right text-muted">
                                         <i class="fa fa-clock-o fa-fw"></i> {{ comment.date }}
                                     </small>

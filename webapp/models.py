@@ -24,32 +24,36 @@ class Rating():
         self.average_rating = self.rating_sum / self.total
 
 
-class BandProfile(models.Model):
+class UserProfile(models.Model):
     user = models.OneToOneField(User)
     name = models.CharField(max_length=32)
-    views = models.IntegerField(default=0)
-    rating = Rating()
     city = models.CharField(max_length=2, choices=CITIES)
     genre = models.CharField(max_length=16, choices=GENRES)
-    mood = models.TextField(max_length=256)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     website = models.URLField(blank=True)
 
     def __unicode__(self):
         return self.user.username
+
+
+class BandProfile(models.Model):
+    profile = models.OneToOneField(UserProfile)
+    views = models.IntegerField(default=0)
+    mood = models.TextField(max_length=256)
+    rating = Rating()
+
+    def __unicode__(self):
+        return self.profile.user.username
 
 
 class FanProfile(models.Model):
-    user = models.OneToOneField(User)
+    profile = models.OneToOneField(UserProfile)
     xp = models.IntegerField(default=0)
     title = models.CharField(max_length=2, choices=TITLES)
-    city = models.CharField(max_length=2, choices=CITIES)
-    genre = models.CharField(max_length=16, choices=GENRES)
-    picture = models.ImageField(upload_to='profile_images', blank=True)
-    website = models.URLField(blank=True)
+    mood = models.TextField(max_length=256)
         
     def __unicode__(self):
-        return self.user.username
+        return self.profile.user.username
 
 
 class Event(models.Model):
@@ -82,31 +86,15 @@ class Achievement(models.Model):
         return self.name
 
 
-def get_avatar():
-    profile = None
-    try:
-        profile = FanProfile.objects.get(user=user)
-    except:
-        pass
-    try:
-        profile = BandProfile.objects.get(user=user)
-    except:
-        pass
-    if not profile:
-        return None
-    return profile.picture
-
-
 class Comment(models.Model):
-    user = models.ForeignKey(User)
-    user_avatar = get_avatar()
+    user = models.ForeignKey(UserProfile)
     event = models.ForeignKey(Event)
     date = models.DateField(default=timezone.now)
     text = models.TextField(max_length=1024)
 
 
 class Feedback(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(UserProfile)
     band = models.ForeignKey(BandProfile)
     date = models.DateField(default=timezone.now)
     text = models.TextField(max_length=1024)

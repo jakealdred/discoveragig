@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from webapp.models import BandProfile, FanProfile, Event, Comment, Feedback
+from webapp.models import UserProfile, FanProfile, BandProfile, Event, Comment, Feedback
 
 
 class UserForm(forms.ModelForm):
@@ -11,16 +11,22 @@ class UserForm(forms.ModelForm):
         fields = ('username', 'email', 'password')
 
 
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('name', 'city', 'genre', 'picture', 'website')
+
+
 class BandProfileForm(forms.ModelForm):
     class Meta:
         model = BandProfile
-        fields = ('name', 'city', 'genre', 'picture', 'mood', 'website')
+        fields = ('mood',)
 
 
 class FanProfileForm(forms.ModelForm):
     class Meta:
         model = FanProfile
-        fields = ('city', 'genre', 'picture', 'website')
+        fields = ('mood',)
 
 
 class EventForm(forms.ModelForm):

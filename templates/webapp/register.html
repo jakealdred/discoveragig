@@ -5,9 +5,23 @@
 {% block page_header %}Register{% endblock %}
 
 {% block main_body %}
+ <form id="user_form" method="post" action="."
+enctype="multipart/form-data">
+{% csrf_token %}
+<!-- Temporary -->
+{{ user_form.as_p }}
+{{ profile_form.as_p }}
+{% if band_form %}
+{{ band_form.as_p }}
+{% elif fan_form %}
+{{ fan_form.as_p }}
+{% endif %}
+<input type="submit" name="submit" value="Register" />
+</form>
+
+<!--
     <form id="user_form" method="post" action="." enctype="multipart/form-data">
         <div class="row">
-                <!-- Missing city and genre select inputs. Not working!!!-->
 
             {% csrf_token %}
             <div class="col-lg-6">
@@ -46,5 +60,5 @@
             </div>
             <div class="col-lg-5"></div>
         </div>
-    </form>
+    </form> -->
 {% endblock %}

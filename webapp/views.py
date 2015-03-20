@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from webapp.models import BandProfile, FanProfile, Achievement, Event, Comment
-from webapp.forms import UserForm, BandProfileForm, FanProfileForm, EventForm, CommentForm
+from webapp.models import UserProfile, BandProfile, FanProfile, Achievement, Event, Comment
+from webapp.forms import UserForm, UserProfileForm, FanProfileForm, BandProfileForm, EventForm, CommentForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -14,9 +14,9 @@ def index(request):
         context_dict['message'] = message
     
     
-    band_list = BandProfile.objects.order_by('-views')[:5]
+    #band_list = BandProfile.objects.order_by('-views')[:5]
     event_list = Event.objects.order_by('-views')[:5]
-    context_dict['bands'] = band_list
+    #context_dict['bands'] = band_list
     context_dict['events'] = event_list
     
     return render(request, 'webapp/index.html', context_dict)
@@ -48,33 +48,41 @@ def register(request, user_type):
     if request.method == 'POST':
         form = None
         user_form = UserForm(data=request.POST)
+        user_profile_form = UserProfileForm(data=request.POST)
         if user_type == 'band':
             form = BandProfileForm(data=request.POST)
         elif user_type == 'fan':
             form = FanProfileForm(data=request.POST)
         
-        if user_form.is_valid() and form.is_valid():
+        if user_form.is_valid() and user_profile_form.is_valid() and form.is_valid():
+            # User
             user = user_form.save()
             user.set_password(user.password)
             user.save()
 
-            profile = form.save(commit=False)
-            profile.user = user
-
+            # UserProfile
+            user_profile = user_profile_form.save(commit=False)
+            user_profile.user = user
             if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
+                user_profile.picture = request.FILES['picture']
+            user_profile.save()
 
+            # Fan/Band Profile
+            profile = form.save(commit=False)
+            profile.profile = user_profile
             profile.save()
+
             registered = True
 
             # Auto login.
             user_login(request)
         else:
-            print user_form.errors, form.errors
+            print user_form.errors, form.errors, user_profile_form.errors
 
         return HttpResponseRedirect('/')
     else:
         user_form = UserForm()
+        profile_form = UserProfileForm()
         band_form = None
         fan_form = None
         if user_type == 'band':
@@ -86,6 +94,7 @@ def register(request, user_type):
     
     context_dict['registered'] = registered
     context_dict['user_form'] = user_form
+    context_dict['profile_form'] = profile_form
     return render(request, 'webapp/register.html', context_dict)
 
 
@@ -94,6 +103,8 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/')
 
+def events(request):
+    return render(request, 'webapp/events.html', {'events': Event.objects.all()})
 
 def event(request, event_name):
     context_dict = {}
@@ -113,7 +124,7 @@ def event(request, event_name):
         if comment_form:
             comment = comment_form.save(commit=False)
             comment.event = event
-            comment.user = request.user
+            comment.user = UserProfile.objects.get(user=request.user)
             comment.save()
 
     if event:
@@ -134,13 +145,13 @@ def fan(request, username):
     context_dict = {}
     try:
         user = User.objects.get(username=username)
-        profile = FanProfile.objects.get(user=user)
+        profile = UserProfile.objects.get(user=user)
+        fan = FanProfile.objects.get(profile=profile)
     except:
-        profile = None
+        fan = None
 
-    if profile:
-        context_dict['username'] = user.username
-        context_dict['profile'] = profile
+    if fan:
+        context_dict['fan'] = fan
         if user == request.user:
             context_dict['logged_in'] = True
     else:
@@ -152,12 +163,13 @@ def band(request, username):
     context_dict = {}
     try:
         user = User.objects.get(username=username)
-        profile = BandProfile.objects.get(user=user)
+        profile = UserProfile.objects.get(user=user)
+        band = BandProfile.objects.get(profile=profile)
     except:
-        profile = None
+        band = None
 
-    if profile:
-        context_dict['band'] = profile
+    if band:
+        context_dict['band'] = band
         if user == request.user:
             context_dict['logged_in'] = True
     else:
@@ -169,8 +181,8 @@ def band(request, username):
 def create_event(request):
     context_dict = {}
     try:
-        user = request.user
-        band = BandProfile.objects.get(user=user)
+        profile = UserProfile.objects.get(user=request.user)
+        band = BandProfile.objects.get(profile=profile)
     except:
         band = None
 
@@ -197,21 +209,38 @@ def create_event(request):
     return render(request, 'webapp/create_event.html', context_dict)
 
 
+
+
+
 # Sends context info to all the templates
 def get_context_info(request):
 
     context = {}
-    user = request.user
-    context['user'] = user
-    try:
-        fan = FanProfile.objects.get(user=user)
-        context['fan_profile'] = fan
-    except:
-        pass
-    try:
-        band = BandProfile.objects.get(user=user)
-        context['band_profile'] = band
-    except:
-        pass
+    # Lists of bands and fans
+    bands = BandProfile.objects.all()
+    context['bands'] = bands
+    fans = FanProfile.objects.all()
+    context['fans'] = fans
+
+    # List of all user profiles
+    user_profiles = UserProfile.objects.all()
+    context['user_profiles'] = user_profiles
+
+    # Lists of fan and band user profiles
+    fan_profiles = []
+    band_profiles = []
+    for profile in user_profiles:
+        try:
+            fan_profile = FanProfile.objects.get(profile=profile)
+            fan_profiles += [profile]
+        except:
+            pass
+        try:
+            band_profile = BandProfile.objects.get(profile=profile)
+            band_profiles += [profile]
+        except:
+            pass
+    context['fan_profiles'] = fan_profiles
+    context['band_profiles'] = band_profiles
 
     return context
