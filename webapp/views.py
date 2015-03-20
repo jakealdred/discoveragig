@@ -259,19 +259,21 @@ def create_event(request):
     except:
         band = None
 
-    if request.method != 'GET':
+    if request.method == 'POST':
         if band:
-            event_form = EventForm(data=request.POST)
-            if event_form.is_valid():
-                event = event_form.save(commit=False)
-                event.band = band
+			event_form = EventForm(data=request.POST)
+			if event_form.is_valid():
+				event = event_form.save(commit=False)
+				event.band = band
 
-                if 'picture' in request.FILES:
-                    event.picture = request.FILES['picture']
+				if 'picture' in request.FILES:
+				    event.picture = request.FILES['picture']
 
-                event.save()
+				event.save()
 
-                return HttpResponseRedirect('/event/%s' % event.slug)
+				return HttpResponseRedirect('/event/%s' % event.slug)
+			else:
+				print event_form.errors
     else:
         if band:
             event_form = EventForm()
