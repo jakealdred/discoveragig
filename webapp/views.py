@@ -281,6 +281,28 @@ def create_event(request):
 
     return render(request, 'webapp/create_event.html', context_dict)
 
+'''
+def wall(request):
+    context_dict = {}
+    try:
+        band = BandProfile.objects.get(user=request)
+    except:
+        event = None
+    
+    if band:
+        try:
+            achievements = Achievement.objects.filter(band=band)
+            context_dict['achievements'] = achievements
+        except:
+            pass
+
+        if achievements:
+            achievements_even = []
+            achievements_odd = []
+            for i in range(achievements.lenght()):
+'''            	
+
+
 
 # Sends context info to all the templates
 def get_context_info(request):
