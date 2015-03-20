@@ -97,6 +97,16 @@ def register(request, user_type):
     context_dict['profile_form'] = profile_form
     return render(request, 'webapp/register.html', context_dict)
 
+'''
+def edit_profile(request):
+
+    user = request.user
+    if request.method = 'POST':
+        user_profile = UserProfile.objects.get(user=user)
+        user_profile_form = UserProfileForm(data=request.FILES)
+        try:
+            profile = FanProfile.objects.get(profile=user_profile)
+'''
 
 @login_required
 def user_logout(request):
