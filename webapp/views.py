@@ -174,9 +174,9 @@ def events(request):
 
 def event(request, event_name):
     context_dict = {}
-
     try:
         event = Event.objects.get(slug=event_name)
+		#context_dict['picture'] = event.picture
     except:
         event = None
 
@@ -259,19 +259,21 @@ def create_event(request):
     except:
         band = None
 
-    if request.method != 'GET':
+    if request.method == 'POST':
         if band:
-            event_form = EventForm(data=request.POST)
-            if event_form.is_valid():
-                event = event_form.save(commit=False)
-                event.band = band
+			event_form = EventForm(data=request.POST)
+			if event_form.is_valid():
+				event = event_form.save(commit=False)
+				event.band = band
 
-                if 'picture' in request.FILES:
-                    event.picture = request.FILES['picture']
+				if 'picture' in request.FILES:
+				    event.picture = request.FILES['picture']
 
-                event.save()
+				event.save()
 
-                return HttpResponseRedirect('/event/%s' % event.slug)
+				return HttpResponseRedirect('/event/%s' % event.slug)
+			else:
+				print event_form.errors
     else:
         if band:
             event_form = EventForm()
@@ -280,6 +282,28 @@ def create_event(request):
             context_dict['error'] = 'Only bands can create new events.'
 
     return render(request, 'webapp/create_event.html', context_dict)
+
+'''
+def wall(request):
+    context_dict = {}
+    try:
+        band = BandProfile.objects.get(user=request)
+    except:
+        event = None
+    
+    if band:
+        try:
+            achievements = Achievement.objects.filter(band=band)
+            context_dict['achievements'] = achievements
+        except:
+            pass
+
+        if achievements:
+            achievements_even = []
+            achievements_odd = []
+            for i in range(achievements.lenght()):
+'''            	
+
 
 
 # Sends context info to all the templates

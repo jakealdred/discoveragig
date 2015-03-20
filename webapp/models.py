@@ -79,7 +79,7 @@ class Event(models.Model):
 
 class Achievement(models.Model):
     fan = models.ForeignKey(FanProfile)
-    name = models.CharField(max_length=2,)
+    name = models.CharField(max_length=2)
     xp = models.IntegerField(default=5)
 
     def __unicode__(self):
