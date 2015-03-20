@@ -1,11 +1,14 @@
 {% extends 'webapp/base.html' %}
 
-{% block title %} Band's {{band.name}} page{% endblock %}
+{% block title %} Band {{profile.name}} page{% endblock %}
 
 {% block main_body %}
 
 {% if band %}
-	<h1>{{ band.name }}</h1>
+	<h1>{{ profile.name }}</h1>
+	<hr>
+	<img src="/media/{{ profile.picture }}">
+	{{ user.email }}
 {% endif %}
 
 {% endblock %}
