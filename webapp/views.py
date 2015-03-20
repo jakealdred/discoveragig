@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from webapp.models import UserProfile, BandProfile, FanProfile, Achievement, Event, Comment
-from webapp.forms import UserForm, UserProfileForm, FanProfileForm, BandProfileForm, EventForm, CommentForm
+from webapp.models import UserProfile, BandProfile, FanProfile, Achievement, Event, Comment, Feedback
+from webapp.forms import UserForm, UserProfileForm, FanProfileForm, BandProfileForm, EventForm, CommentForm, FeedbackForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -229,15 +229,25 @@ def band(request, username):
 
     context_dict = {}
 
-    if request.method == 'POST':
-        pass
-
     try:
         user = User.objects.get(username=username)
         profile = UserProfile.objects.get(user=user)
         band = BandProfile.objects.get(profile=profile)
     except:
         band = None
+
+    if request.method == 'POST':
+        feedback_form = None
+        try:
+            feedback_form = FeedbackForm(data=request.POST)
+        except:
+            pass
+
+        if feedback_form:
+            feedback = feedback_form.save(commit=False)
+            feedback.band = band
+            feedback.user = UserProfile.objects.get(user=request.user)
+            feedback.save()
 
     if band:
         context_dict['band'] = band
@@ -283,26 +293,37 @@ def create_event(request):
 
     return render(request, 'webapp/create_event.html', context_dict)
 
-'''
+
 def wall(request):
     context_dict = {}
     try:
-        band = BandProfile.objects.get(user=request)
+        profile = UserProfile.objects.get(user=request.user)
+        band = BandProfile.objects.get(profile=profile)
     except:
-        event = None
+        band = None
     
     if band:
         try:
-            achievements = Achievement.objects.filter(band=band)
-            context_dict['achievements'] = achievements
+            feedback = Feedback.objects.filter(band=band)
+            context_dict['feedback'] = feedback
         except:
-            pass
+            feedback = None
 
-        if achievements:
-            achievements_even = []
-            achievements_odd = []
-            for i in range(achievements.lenght()):
-'''            	
+        if feedback:
+            even = []
+            odd = []
+            i = 0
+            for fb in feedback:
+                if i%2==1:
+                    odd += [fb]
+                else:
+                    even += [fb]
+                i += 1
+
+
+            context_dict['even'] = even
+            context_dict['odd'] = odd
+    return render(request, 'webapp/wall.html', context_dict)
 
 
 
