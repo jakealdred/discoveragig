@@ -97,16 +97,72 @@ def register(request, user_type):
     context_dict['profile_form'] = profile_form
     return render(request, 'webapp/register.html', context_dict)
 
-'''
-def edit_profile(request):
 
+def edit_profile(request):
+    context_dict = {}
     user = request.user
-    if request.method = 'POST':
-        user_profile = UserProfile.objects.get(user=user)
+    if request.method == 'POST':
         user_profile_form = UserProfileForm(data=request.FILES)
+
+        # Tries to retrieve UserProfile
         try:
+            user_profile = UserProfile.objects.get(user=user)
+        except:
+            user_profile = user_profile_form.save(commit=False)
+            user_profile.user = user
+        
+        if user_profile_form.is_valid():
+
+            if 'picture' in request.FILES:
+                user_profile.picture = request.FILES['picture']
+                user_profile.save()
+
+            # Tries to retrieve Band profile
+            try:
+                profile_form = BandProfileForm(data=request.FILES)
+                profile = BandProfile.objects.get(profile=user_profile)
+                user_type = 'band'
+            except:
+                pass
+
+            # If it's not a band, retrieves a fan profile
+            try:
+                profile_form = BandProfileForm(data=request.FILES)
+                profile = FanProfile.objects.get(profile=user_profile)
+                user_type = 'band'
+            except:
+                # By default, if there is no band or fan profiles, creates a fan profile.
+                #profile_form = FanProfileForm(data=request.FILES)
+                #profile = profile_form.save(commit=False)
+                pass
+
+            if profile_form.is_valid():
+                profile.save()
+                if user_type == 'fan':
+                    return HttpResponseRedirect('/fan/%s' % user.username)
+                else:
+                    return HttpResponseRedirect('/band/%s' % user.username)
+
+        else:
+            print user_profile_form.errors
+    else:
+        user_profile_form = UserProfileForm()
+        context_dict['user_profile_form'] = user_profile_form
+        
+        try:
+            profile_form = BandProfileForm()
+            profile = BandProfile.objects.get(profile=user_profile)
+        except:
+            pass
+
+        try:
+            profile_form = BandProfileForm(data=request.FILES)
             profile = FanProfile.objects.get(profile=user_profile)
-'''
+        except:
+            pass
+        context_dict['profile_form'] = profile_form
+    return render(request, 'webapp/edit_profile.html', context_dict)
+
 
 @login_required
 def user_logout(request):
@@ -170,7 +226,12 @@ def fan(request, username):
 
 
 def band(request, username):
+
     context_dict = {}
+
+    if request.method == 'POST':
+        pass
+
     try:
         user = User.objects.get(username=username)
         profile = UserProfile.objects.get(user=user)
@@ -180,10 +241,12 @@ def band(request, username):
 
     if band:
         context_dict['band'] = band
+        context_dict['profile'] = profile
         if user == request.user:
             context_dict['logged_in'] = True
     else:
         return HttpResponseRedirect('/register/band/')
+
     return render(request, 'webapp/band.html', context_dict)
 
 
@@ -219,13 +282,28 @@ def create_event(request):
     return render(request, 'webapp/create_event.html', context_dict)
 
 
-
-
-
 # Sends context info to all the templates
 def get_context_info(request):
 
     context = {}
+
+    # Current user info
+    try:
+        user = request.user
+        user_profile = UserProfile(user=user)
+    except:
+        pass
+    try:
+        profile = FanProfile(profile=user_profile)
+        context_dict['user_type'] = 'fan'
+    except:
+        pass
+    try:
+        profile = BandProfile(profile=user_profile)
+        context_dict['user_type'] ='band'
+    except:
+        pass
+
     # Lists of bands and fans
     bands = BandProfile.objects.all()
     context['bands'] = bands
