@@ -268,9 +268,9 @@ def create_event(request):
 
                 if 'picture' in request.FILES:
                     event.picture = request.FILES['picture']
-
+                #event.time =    
                 event.save()
-
+             
                 return HttpResponseRedirect('/event/%s' % event.slug)
     else:
         if band:

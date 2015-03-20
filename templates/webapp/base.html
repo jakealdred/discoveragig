@@ -25,8 +25,13 @@
 
     <!-- Custom Fonts -->
     <link href="{{STATIC_URL}}css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <!-- polaroid -->
+    <!-- background -->
     <link href="{{STATIC_URL}}css/event_page.css" rel="stylesheet">
+	
+	<link rel="stylesheet" type="text/css" href="/media/admin/css/forms.css"/>
+<link rel="stylesheet" type="text/css" href="/media/admin/css/base.css"/>
+<link rel="stylesheet" type="text/css" href="/media/admin/css/global.css"/>
+<link rel="stylesheet" type="text/css" href="/media/admin/css/widgets.css"/>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -37,11 +42,13 @@
 </head>
 
 <body>
+<div class="background-image">
+</div>
 	<div id="wrapper">
 	    <!-- Navigation -->
-	    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+	    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; opacity:0.8 ">
 	        <div class="navbar-header">
-	            <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static "img/logo.jpg" %}"></a>  
+	            <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static "img/logo.jpg" %}" style="opacity:1 "></a>  
 	        </div>
 	        <div class=navbar-header">
 	        	<a class="navbar-brand" href="{% url 'index' %}">Discoveragig</a>
@@ -118,6 +125,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{STATIC_URL}}js/javascript/js/sb-admin-2.js"></script>
+	<!-- fade-->
 	<script src="{{STATIC_URL}}js/javascript/js/event_page.js"></script>
 </body>
 

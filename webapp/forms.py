@@ -39,7 +39,13 @@ class FanProfileForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
+		
         fields = ('name', 'city', 'website', 'picture', 'price', 'venue')
+    def __init__(self, *args, **kwargs):
+        super(ProductForm, self).__init__(*args, **kwargs)
+        self.fields['mydate'].widget = widgets.AdminDateWidget()
+        self.fields['mytime'].widget = widgets.AdminTimeWidget()
+        self.fields['mydatetime'].widget = widgets.AdminSplitDateTime()
 
 
 class CommentForm(forms.ModelForm):
