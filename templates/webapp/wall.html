@@ -15,7 +15,7 @@
                     {% for fb in feedback %}
                     {% if fb in odd %}
                     <li>
-                        <div class="timeline-badge"><i class="fa fa-check"></i>
+                        <div class="timeline-badge"><img src="/media/{{ fb.user.picture }}" width="50" height="50" alt="User Avatar" class="img-circle">
                         </div>
                         <div class="timeline-panel">
                             <div class="timeline-heading">
@@ -30,7 +30,7 @@
                     </li>
                     {% else %}
                     <li class="timeline-inverted">
-                        <div class="timeline-badge warning"><i class="fa fa-credit-card"></i>
+                        <div class="timeline-badge"><img src="/media/{{ fb.user.picture }}" width="50" height="50" alt="User Avatar" class="img-circle">
                         </div>
                         <div class="timeline-panel">
                             <div class="timeline-heading">
