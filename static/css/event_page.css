@@ -1,0 +1,119 @@
+@-webkit-keyframes fade-in {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.background-image {
+  background: url('http://oldgoldandblack.com/wp-content/uploads/2013/09/Rock-Concert.jpg') no-repeat center center fixed;
+  
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  
+  opacity: 0;
+  
+  -webkit-animation-name: fade-in;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: ease-in;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-delay: 0.2s;
+}
+
+.background-image.visible {
+  opacity: 1;
+}
+
+.row {
+opacity: .9;
+}
+
+* { 
+-moz-box-sizing: border-box; 
+box-sizing: border-box;
+}
+
+
+#main {
+	margin: 40px auto 10px auto;
+  min-height: 400px;
+  width: 960px;
+}
+
+.frame {
+  float: left;
+  height: 250px;
+ 	overflow: hidden;
+  position: relative;
+  width: 300px;
+}
+
+.frame a {
+  display: block;
+	height: 100%;
+  width: 100%;
+}
+
+.frame img {
+  display: block;
+  height: auto;
+  position: absolute;
+  top: -125%;
+  left: -50%;
+	width: auto;
+  z-index: 0;
+}
+
+.frame:nth-child(2) img {
+  top: -90%;
+  left: -70%;
+}
+.frame:nth-child(3) img {
+  top: -90%;
+}
+
+.frame a .caption {
+	background-color: rgba(0, 0, 0, 0.7);
+	display: block;
+  overflow: hidden;
+  padding: 10px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 180px;
+	transition-property: top;
+  transition-duration: 0.2s;  
+  width: 100%;  
+  z-index: 10;
+}
+
+.frame a:hover .caption {
+	top: 0;
+  transition: all 2s;
+}
+
+.frame a .caption h2 {
+  color: orange;
+  font-size: 32px;
+	margin-bottom: 20px;
+}
+
+.frame a .caption p {
+  color: white;
+  display: none;
+  line-height: 150%;
+  transition: all 0.2s;  
+  width: 90%;
+}
+
+.frame a:hover .caption p {
+  display: block;
+  margin-bottom: 20px;
+}

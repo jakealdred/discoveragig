@@ -118,9 +118,9 @@ def events(request):
 
 def event(request, event_name):
     context_dict = {}
-
     try:
         event = Event.objects.get(slug=event_name)
+		#context_dict['picture'] = event.picture
     except:
         event = None
 
