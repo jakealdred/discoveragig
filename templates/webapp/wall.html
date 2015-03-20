@@ -19,9 +19,14 @@
                         </div>
                         <div class="timeline-panel">
                             <div class="timeline-heading">
-                                <h4 class="timeline-title">{{ fb.user.name }}</h4>
-                                <p><small class="text-muted"><i class="fa fa-clock-o"></i> {{ fb.date }}</small>
-                                </p>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <h4 class="timeline-title"><a href="{% url 'fan' fb.user.user.username %}">{{ fb.user.user.username }}</a></h4>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <small class="text-muted text-right"><i class="fa fa-clock-o"></i> {{ fb.date }}</small>
+                                    </div>
+                                </div>
                             </div>
                             <div class="timeline-body">
                                 <p>{{ fb.text }}</p>
@@ -33,10 +38,14 @@
                         <div class="timeline-badge"><img src="/media/{{ fb.user.picture }}" width="50" height="50" alt="User Avatar" class="img-circle">
                         </div>
                         <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4 class="timeline-title">{{ fb.user.name }}</h4>
-                                <p><small class="text-muted"><i class="fa fa-clock-o"></i> {{ fb.date }}</small>
-                            </div>
+                            <div class="row">
+                                    <div class="col-lg-8">
+                                        <h4 class="timeline-title"><a href="{% url 'fan' fb.user.user.username %}">{{ fb.user.user.username }}</a></h4>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <small class="text-muted text-right"><i class="fa fa-clock-o"></i> {{ fb.date }}</small>
+                                    </div>
+                                </div>
                             <div class="timeline-body">
                                 <p>{{ fb.text }}</p>
                             </div>
