@@ -2,11 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.template.defaultfilters import slugify
-<<<<<<< HEAD
-=======
 from webapp.data_choices import TITLES, ACHIEVEMENTS, CITIES, GENRES
 import datetime
->>>>>>> 862edf9b8884ceba952b4dcd7b2b2497e3add1bd
 
 class Rating():
 

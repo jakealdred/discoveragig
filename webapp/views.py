@@ -5,12 +5,9 @@ from webapp.forms import UserForm, UserProfileForm, FanProfileForm, BandProfileF
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
-<<<<<<< HEAD
 from webapp.data_choices import TITLES, ACHIEVEMENTS, CITIES, GENRES
 
-=======
 from django.utils import timezone
->>>>>>> 862edf9b8884ceba952b4dcd7b2b2497e3add1bd
 
 def index(request):
 
