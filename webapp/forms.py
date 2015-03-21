@@ -41,6 +41,8 @@ class EventForm(forms.ModelForm):
     website = forms.URLField(required=False)
     venue = forms.CharField(required=False)
     picture = forms.ImageField(required=False)
+    price = forms.FloatField(required=False)
+    date = forms.DateField(required=False)
     class Meta:
         model = Event
         fields = ('name', 'city', 'website', 'picture', 'price', 'venue','date')

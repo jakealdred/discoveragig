@@ -52,12 +52,8 @@ def register(request, user_type):
         form = None
         user_form = UserForm(data=request.POST)
         user_profile_form = UserProfileForm(data=request.POST)
-        if user_type == 'band':
-            form = BandProfileForm(data=request.POST)
-        elif user_type == 'fan':
-            form = FanProfileForm(data=request.POST)
         
-        if user_form.is_valid() and user_profile_form.is_valid() and form.is_valid():
+        if user_form.is_valid() and user_profile_form.is_valid():
             # User
             user = user_form.save()
             user.set_password(user.password)
@@ -73,10 +69,10 @@ def register(request, user_type):
             user_profile.save()
 
             # Fan/Band Profile
-            profile = form.save(commit=False)
-            profile.profile = user_profile
-            profile.save()
-
+            if user_type == 'fan':
+                profile = FanProfile.objects.get_or_create(profile=user_profile)
+            else:
+                profile = BandProfile.objects.get_or_create(profile=user_profile)
             registered = True
 
             # Auto login.
@@ -88,14 +84,6 @@ def register(request, user_type):
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
-        band_form = None
-        fan_form = None
-        if user_type == 'band':
-            band_form = BandProfileForm()
-            context_dict['band_form'] = band_form
-        elif user_type == 'fan':
-            fan_form = FanProfileForm()
-            context_dict['fan_form'] = fan_form
     
     context_dict['registered'] = registered
     context_dict['user_form'] = user_form
