@@ -56,4 +56,3 @@ class FeedbackForm(forms.ModelForm):
         model = Feedback
         fields = ('text',)
         
-            

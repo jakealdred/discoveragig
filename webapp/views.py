@@ -5,6 +5,8 @@ from webapp.forms import UserForm, UserProfileForm, FanProfileForm, BandProfileF
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
+from webapp.data_choices import TITLES, ACHIEVEMENTS, CITIES, GENRES
+
 
 def index(request):
 
@@ -340,6 +342,8 @@ def wall(request):
 def get_context_info(request):
 
     context = {}
+    context['cities'] = CITIES
+    context['genres'] = GENRES
 
     # Current user info
     try:

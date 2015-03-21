@@ -5,26 +5,13 @@
 {% block page_header %}Register{% endblock %}
 
 {% block main_body %}
- <form id="user_form" method="post" action="."
-enctype="multipart/form-data">
-{% csrf_token %}
-<!-- Temporary -->
-{{ user_form.as_p }}
-{{ profile_form.as_p }}
-{% if band_form %}
-{{ band_form.as_p }}
-{% elif fan_form %}
-{{ fan_form.as_p }}
-{% endif %}
-<input type="submit" name="submit" value="Register" />
-</form>
 
-<!--
     <form id="user_form" method="post" action="." enctype="multipart/form-data">
         <div class="row">
 
             {% csrf_token %}
-            <div class="col-lg-6">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-3">
                 <div class="form-group input-group">
                     <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
                     <input type="text" class="form-control" name="username" placeholder="Username">
@@ -41,17 +28,44 @@ enctype="multipart/form-data">
                 </div>
 
                 <div class="form-group input-group">
-                    <span class="input-group-addon"><i class="fa fa-home fa-fw"></i></span>
+                    <span class="input-group-addon"><i class="fa fa-share fa-fw"></i></span>
                     <input type="text" class="form-control" name="website" placeholder="Website">
                 </div>
             </div>
 
-            <div class="col-lg-6">
-
-                <div class="form-group">
-                    <input type="file" name="picture">
-                </div>   
+            <div class="col-lg-3">
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="fa fa-quote-right fa-fw"></i></span>
+                    <input type="text" class="form-control" name="name" placeholder="Name">
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="fa fa-home fa-fw"></i></span>
+                    <select name="city" class="form-control">
+                        <option value="" disabled selected>City</option>
+                        {% for city in cities %}
+                        <option>{{ city }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="fa fa-play fa-fw"></i></span>
+                    <select name="genre" class="form-control">
+                        <option value="" disabled selected>Genre</option>
+                        {% for genre in genres %}
+                        <option>{{ genre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <span class="btn btn-primary btn-file">
+                            Browse&hellip; <input type="file">
+                        </span>
+                    </span>
+                    <input type="text" class="form-control" readonly>
+                </div>
             </div>
+            <div class="col-lg-3"></div>
         </div>
         <div class="row">
             <div class="col-lg-5"></div>
@@ -60,5 +74,5 @@ enctype="multipart/form-data">
             </div>
             <div class="col-lg-5"></div>
         </div>
-    </form> -->
+    </form>
 {% endblock %}
