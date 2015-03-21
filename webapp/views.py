@@ -66,7 +66,7 @@ def register(request, user_type):
             if 'picture' in request.FILES:
                 user_profile.picture = request.FILES['picture']
             else:
-                user_profile.picture = '/static/img/user_avatar.png'
+                user_profile.picture = 'img/user_avatar.png'
             user_profile.save()
 
             # Fan/Band Profile
