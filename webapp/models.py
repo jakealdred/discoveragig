@@ -61,6 +61,7 @@ class Event(models.Model):
     name = models.CharField(max_length=128, unique=True)
     price = models.FloatField(default=0.0)
     rating = Rating()
+    date = models.DateField(("Date"), default=datetime.date.today)
     city = models.CharField(max_length=32)
     venue = models.CharField(max_length=128)
     views = models.IntegerField(default=0)
