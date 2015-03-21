@@ -5,7 +5,6 @@
 {% block title %}Index{% endblock %}
 
 {% block main_body %}
-
 {% if user.is_authenticated %}
 
 {% if user_type == fan %}
@@ -17,7 +16,19 @@
 
 {% else %}
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-3">
+              <div class="panel panel-primary">
+				    <div class="panel-heading">
+						<h1 class="panel-title">Most Viewed Gigs</h1>
+					</div>
+			  </div>
+			<ul class="list-group">
+				{% for event in events %}
+				 <h3><li class="list-group-item"><a href={% url 'event'  event.slug %}>{{ event.name }} at {{event.venue}}</a></li></h1>
+				{% endfor %}
+			</ul>
         </div>
         <div class="col-lg-4">
             <form class="form-signin" role="form" method="post" action=".">
@@ -30,7 +41,19 @@
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
             </form>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
+              <div class="panel panel-primary">
+				    <div class="panel-heading">
+						<h1 class="panel-title">Most Viewed Gigs</h1>
+					</div>
+			  </div>
+			<ul class="list-group">
+				{% for event in events %}
+				 <h3><li class="list-group-item"><a href={% url 'event'  event.slug %}>{{ event.name }} at {{event.venue}}</a></li></h1>
+				{% endfor %}
+			</ul>
+        </div>        
+        <div class="col-lg-1">
         </div>
     </div>
 {% endif %}

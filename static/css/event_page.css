@@ -3,6 +3,19 @@
   100% { opacity: 1; }
 }
 
+h3 {
+	font-size: 9pt
+	font-style: italic;
+	text-align: center;
+	color: #000000;
+}
+h1 {
+	font-size: 16pt
+	font-style: italic;
+	text-align: center;
+	color: #000000;
+}
+
 .background-image {
   background: url('http://oldgoldandblack.com/wp-content/uploads/2013/09/Rock-Concert.jpg') no-repeat center center fixed;
   

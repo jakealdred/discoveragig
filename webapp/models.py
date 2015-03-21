@@ -68,6 +68,7 @@ class Event(models.Model):
     picture = models.ImageField(upload_to='profile_images', blank=True)
     website = models.URLField(blank=True)
     slug = models.SlugField(unique=True)
+	
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
