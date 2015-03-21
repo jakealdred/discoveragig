@@ -1,7 +1,66 @@
 {% extends 'webapp/base.html' %}
 
-{% block title %}{{username}}'s profile page{% endblock %}
+{% block title %}{{user.username}}'s profile page{% endblock %}
 
-{% block main_block %}
+{% block main_body %}
+
+    <br>
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">{{ user.username }}</h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="/media/{{ profile.picture }}" height="150" width="150" class="img-circle"> </div>
+
+                <!--<div class="col-xs-10 col-sm-10 hidden-md hidden-lg"> <br>
+                  <dl>
+                    <dt>DEPARTMENT:</dt>
+                    <dd>Administrator</dd>
+                    <dt>HIRE DATE</dt>
+                    <dd>11/12/2013</dd>
+                    <dt>DATE OF BIRTH</dt>
+                       <dd>11/12/2013</dd>
+                    <dt>GENDER</dt>
+                    <dd>Male</dd>
+                  </dl>
+                </div>-->
+                <div class=" col-md-9 col-lg-9 ">
+                  <table class="table table-user-information">
+                    <tbody>
+                      <tr>
+                        <td>Name</td>
+                        <td>{{ profile.name }}</td>
+                      </tr>
+                      <tr>
+                        <td>City</td>
+                        <td>{{ profile.city }}</td>
+                      </tr>
+
+                         <tr>
+                             <tr>
+                        <td>Genre</td>
+                        <td>{{ profile.genre }}</td>
+                      </tr>
+                        <tr>
+                        <td>Website</td>
+                        <td><a href="{{ profile.website }}">{{ profile.website }}</a></td>
+                      </tr>
+                      <tr>
+                        <td>Email</td>
+                        <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                      </tr>
+
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+                </div>
+            </div>
+        </div>
+
 
 {% endblock %}

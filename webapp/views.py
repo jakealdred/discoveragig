@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from webapp.models import UserProfile, BandProfile, FanProfile, Achievement, Event, Comment
-from webapp.forms import UserForm, UserProfileForm, FanProfileForm, BandProfileForm, EventForm, CommentForm
+from webapp.models import UserProfile, BandProfile, FanProfile, Achievement, Event, Comment, Feedback
+from webapp.forms import UserForm, UserProfileForm, FanProfileForm, BandProfileForm, EventForm, CommentForm, FeedbackForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -218,6 +218,7 @@ def fan(request, username):
 
     if fan:
         context_dict['fan'] = fan
+        context_dict['profile'] = profile
         if user == request.user:
             context_dict['logged_in'] = True
     else:
@@ -229,15 +230,25 @@ def band(request, username):
 
     context_dict = {}
 
-    if request.method == 'POST':
-        pass
-
     try:
         user = User.objects.get(username=username)
         profile = UserProfile.objects.get(user=user)
         band = BandProfile.objects.get(profile=profile)
     except:
         band = None
+
+    if request.method == 'POST':
+        feedback_form = None
+        try:
+            feedback_form = FeedbackForm(data=request.POST)
+        except:
+            pass
+
+        if feedback_form:
+            feedback = feedback_form.save(commit=False)
+            feedback.band = band
+            feedback.user = UserProfile.objects.get(user=request.user)
+            feedback.save()
 
     if band:
         context_dict['band'] = band
@@ -259,19 +270,25 @@ def create_event(request):
     except:
         band = None
 
-    if request.method != 'GET':
+    if request.method == 'POST':
         if band:
             event_form = EventForm(data=request.POST)
             if event_form.is_valid():
                 event = event_form.save(commit=False)
                 event.band = band
-
                 if 'picture' in request.FILES:
                     event.picture = request.FILES['picture']
                 #event.time =    
                 event.save()
-             
                 return HttpResponseRedirect('/event/%s' % event.slug)
+                if 'picture' in request.FILES:
+				    event.picture = request.FILES['picture']
+
+                event.save()
+
+                return HttpResponseRedirect('/event/%s' % event.slug)
+            else:
+				print event_form.errors
     else:
         if band:
             event_form = EventForm()
@@ -280,6 +297,39 @@ def create_event(request):
             context_dict['error'] = 'Only bands can create new events.'
 
     return render(request, 'webapp/create_event.html', context_dict)
+
+
+def wall(request):
+    context_dict = {}
+    try:
+        profile = UserProfile.objects.get(user=request.user)
+        band = BandProfile.objects.get(profile=profile)
+    except:
+        band = None
+    
+    if band:
+        try:
+            feedback = Feedback.objects.filter(band=band)
+            context_dict['feedback'] = feedback
+        except:
+            feedback = None
+
+        if feedback:
+            even = []
+            odd = []
+            i = 0
+            for fb in feedback:
+                if i%2==1:
+                    odd += [fb]
+                else:
+                    even += [fb]
+                i += 1
+
+
+            context_dict['even'] = even
+            context_dict['odd'] = odd
+    return render(request, 'webapp/wall.html', context_dict)
+
 
 
 # Sends context info to all the templates

@@ -22,7 +22,7 @@
 
     <!-- Custom CSS -->
     <link href="{{STATIC_URL}}css/sb-admin-2.css" rel="stylesheet">
-
+    <link href="{{STATIC_URL}}css/fan.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="{{STATIC_URL}}css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- background -->
@@ -50,17 +50,11 @@
 	        <div class="navbar-header">
 	            <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static "img/logo.jpg" %}" style="opacity:1 "></a>  
 	        </div>
-	        <div class=navbar-header">
+	        <div class="navbar-header">
 	        	<a class="navbar-brand" href="{% url 'index' %}">Discoveragig</a>
 	        </div>
 	        <!-- /.navbar-header -->
 
-			
-			
-			
-			
-			
-	
 	        <!--Navigation bar in the right -->
 	        <ul class="nav navbar-top-links navbar-right">
                 {% if user.is_authenticated %}
@@ -96,19 +90,20 @@
                 {% endif %}
                 <!-- /.dropdown -->
 			</ul>
+	        <!-- /.navbar-static-side -->
 	    </nav>
 
         <!-- Page Content -->
-            <div class="container-fluid" style = "padding-top:10%">
-                <div class="row">
-                    <div class="col-lg-1">
-                    </div>
-                    <!-- /.col-lg-12 -->
-                    {% block main_body %}{% endblock %}
-                </div>
-                <!-- /.row -->
+        <div class="container-fluid">
+            <div class="row" style = padding-top:10% >
+                <!-- /.col-lg-12 -->
+                {% block main_body %}{% endblock %}
             </div>
+            <!-- /.row -->
+        </div>
             <!-- /.container-fluid -->
+        <!-- /#page-wrapper -->
+
 	</div>
 	<!-- end of wrapper -->
 

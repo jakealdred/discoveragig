@@ -37,6 +37,10 @@ class FanProfileForm(forms.ModelForm):
 
 
 class EventForm(forms.ModelForm):
+    city = forms.CharField(required=False)
+    website = forms.URLField(required=False)
+    venue = forms.CharField(required=False)
+    picture = forms.ImageField(required=False)
     class Meta:
         model = Event
 		

@@ -9,6 +9,15 @@
 	<hr>
 	<img src="/media/{{ profile.picture }}">
 	{{ user.email }}
+
+	<form id="comment" method="post" action=".">
+	{% csrf_token %}
+		<input id="btn-input" type="text" name="text" placeholder="Type your message here..." />
+			<button type="submit" class="btn btn-warning btn-sm" id="btn-chat">
+				Send
+			</button>
+		</span>
+	</form>
 {% endif %}
 
 {% endblock %}
