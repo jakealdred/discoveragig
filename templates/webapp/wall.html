@@ -15,7 +15,12 @@
                     {% for fb in feedback %}
                     {% if fb in odd %}
                     <li>
-                        <div class="timeline-badge"><img src="/media/{{ fb.user.picture }}" width="50" height="50" alt="User Avatar" class="img-circle">
+                        <div class="timeline-badge">
+                            {% if fb.user.picture %}
+                            <img src="/media/{{ fb.user.picture }}" width="50" height="50" alt="User Avatar" class="img-circle">
+                            {% else %}
+                            <img src="/static/img/user_avatar.png" width="50" height="50" alt="User Avatar" class="img-circle">
+                            {% endif %}
                         </div>
                         <div class="timeline-panel">
                             <div class="timeline-heading">
@@ -35,7 +40,12 @@
                     </li>
                     {% else %}
                     <li class="timeline-inverted">
-                        <div class="timeline-badge"><img src="/media/{{ fb.user.picture }}" width="50" height="50" alt="User Avatar" class="img-circle">
+                        <div class="timeline-badge">
+                            {% if fb.user.picture %}
+                            <img src="/media/{{ fb.user.picture }}" width="50" height="50" alt="User Avatar" class="img-circle">
+                            {% else %}
+                            <img src="/static/img/user_avatar.png" width="50" height="50" alt="User Avatar" class="img-circle">
+                            {% endif %}
                         </div>
                         <div class="timeline-panel">
                             <div class="row">

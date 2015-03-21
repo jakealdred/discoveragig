@@ -65,6 +65,8 @@ def register(request, user_type):
             user_profile.user = user
             if 'picture' in request.FILES:
                 user_profile.picture = request.FILES['picture']
+            else:
+                user_profile.picture = '/static/img/user_avatar.png'
             user_profile.save()
 
             # Fan/Band Profile
@@ -329,6 +331,8 @@ def wall(request):
             context_dict['even'] = even
             context_dict['odd'] = odd
     return render(request, 'webapp/wall.html', context_dict)
+
+
 
 
 
