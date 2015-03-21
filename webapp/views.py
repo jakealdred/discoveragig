@@ -5,6 +5,7 @@ from webapp.forms import UserForm, UserProfileForm, FanProfileForm, BandProfileF
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 def index(request):
 
@@ -271,11 +272,16 @@ def create_event(request):
         band = None
 
     if request.method == 'POST':
+       # print request.FILES['data']
         if band:
+        
             event_form = EventForm(data=request.POST)
+           # f = DateRangeForm(request.POST)
+           # context_dict['form'] = f
             if event_form.is_valid():
                 event = event_form.save(commit=False)
                 event.band = band
+                #event.date = timezone.now()
                 if 'picture' in request.FILES:
                     event.picture = request.FILES['picture']
                 #event.time =    
@@ -288,8 +294,12 @@ def create_event(request):
 
                 return HttpResponseRedirect('/event/%s' % event.slug)
             else:
+            
 				print event_form.errors
     else:
+       # f = DateRangeForm()
+       # context_dict.update(csrf(request))
+       # context_dict['form'] = f
         if band:
             event_form = EventForm()
             context_dict['event_form'] = event_form
