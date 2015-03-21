@@ -43,9 +43,7 @@ class EventForm(forms.ModelForm):
     picture = forms.ImageField(required=False)
     class Meta:
         model = Event
-		
         fields = ('name', 'city', 'website', 'picture', 'price', 'venue','date')
-
 
 class CommentForm(forms.ModelForm):
     class Meta:
