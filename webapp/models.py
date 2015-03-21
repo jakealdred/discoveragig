@@ -2,6 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.template.defaultfilters import slugify
+<<<<<<< HEAD
+=======
+from webapp.data_choices import TITLES, ACHIEVEMENTS, CITIES, GENRES
+import datetime
+>>>>>>> 862edf9b8884ceba952b4dcd7b2b2497e3add1bd
 
 class Rating():
 
@@ -60,6 +65,7 @@ class Event(models.Model):
     name = models.CharField(max_length=128, unique=True)
     price = models.FloatField(default=0.0)
     rating = Rating()
+    date = models.DateField(("Date"), default=datetime.date.today)
     city = models.CharField(max_length=32)
     venue = models.CharField(max_length=128)
     views = models.IntegerField(default=0)

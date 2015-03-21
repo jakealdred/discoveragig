@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from webapp.models import UserProfile, FanProfile, BandProfile, Event, Comment, Feedback
-
+from datetime import date
+from datetime import datetime
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -35,7 +36,6 @@ class FanProfileForm(forms.ModelForm):
         model = FanProfile
         fields = ('mood',)
 
-
 class EventForm(forms.ModelForm):
     city = forms.CharField(required=False)
     website = forms.URLField(required=False)
@@ -43,7 +43,7 @@ class EventForm(forms.ModelForm):
     picture = forms.ImageField(required=False)
     class Meta:
         model = Event
-        fields = ('name', 'city', 'website', 'picture', 'price', 'venue')
+        fields = ('name', 'city', 'website', 'picture', 'price', 'venue','date')
 
 class CommentForm(forms.ModelForm):
     class Meta:
