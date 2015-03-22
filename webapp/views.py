@@ -131,31 +131,25 @@ def register(request, user_type):
 
 
 def edit_profile(request):
-    context_dict = {}
     user = request.user
     if request.method == 'POST':
-        print request.FILES
-        user_profile_form = UserProfileForm(data=request.FILES)
+        user_profile = UserProfile.objects.get(user=user)
 
-        # Tries to retrieve UserProfile
-        try:
-            user_profile = UserProfile.objects.get(user=user)
-            print "yy"
-        except:
-            user_profile = user_profile_form.save(commit=False)
-            user_profile.user = user
-        
-        if user_profile_form.is_valid():
+        if 'picture' in request.FILES:
+            user_profile.picture = request.FILES['picture']
+        if 'name' in request.FILES:
+            user_profile.name = request.POST['name']
+        if 'website' in request.FILES:
+            user_profile.website = request.POST['website']
+        if 'city' in request.FILES:
+            user_profile.city = request.POST['city']
+        if 'genre' in request.FILES:
+            user_profile.genre = request.POST['genre']
+        user_profile.save()
 
-            if 'picture' in request.FILES:
-                user_profile.picture = request.FILES['picture']
-            user_profile.save()
+        return HttpResponseRedirect('/')
 
-            return HttpResponseRedirect('/')
-
-        else:
-            print user_profile_form.errors
-    return render(request, 'webapp/edit_profile.html', context_dict)
+    return render(request, 'webapp/edit_profile.html', {})
 
 
 @login_required
@@ -291,17 +285,12 @@ def create_event(request):
 
     if request.method == 'POST':
         if band:
-        
             event_form = EventForm(data=request.POST)
             if event_form.is_valid():
                 event = event_form.save(commit=False)
                 event.band = band
                 if 'picture' in request.FILES:
-                    event.picture = request.FILES['picture'] 
-                event.save()
-                return HttpResponseRedirect('/event/%s' % event.slug)
-                if 'picture' in request.FILES:
-				    event.picture = request.FILES['picture']
+                    event.picture = request.FILES['picture']
 
                 event.save()
 

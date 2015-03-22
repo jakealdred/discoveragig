@@ -1,59 +1,65 @@
 {% extends 'webapp/base.html' %}
 
-{% block title %} {{profile.name}}'s page{% endblock %}
+{% block title %} {{username.username}}'s profile{% endblock %}
 
 {% block main_body %}
-    <div class="panel panel-info">
-            <div class="panel-heading">
-              <h3 class="panel-title">{{ username.username }}</h3>
-            </div>
-            <div class="panel-body">
-              <div class="row">
-                <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="/media/{{ profile.picture }}" height="150" width="150" class="img-circle"> </div>
-                <div class=" col-md-9 col-lg-9 ">
-                  <table class="table table-user-information">
-                    <tbody>
-                      <tr>
-                        <td width="250px">Name:</td>
-                        <td>{{ profile.name }}</td>
-                      </tr>
-                      <tr>
-                        <td>City:</td>
-                        <td>{{ profile.city }}</td>
-                      </tr>
+
+  <div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+      <div class="panel panel-info">
+              <div class="panel-heading">
+                <h3 class="panel-title">{{ username.username }}</h3>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="/media/{{ profile.picture }}" height="150" width="150" class="img-circle"> </div>
+                  <div class=" col-md-9 col-lg-9 ">
+                    <table class="table table-user-information">
+                      <tbody>
                         <tr>
-                        <td>Genre:</td>
-                        <td>{{ profile.genre }}</td>
-                      </tr>
+                          <td width="200px">Name:</td>
+                          <td>{{ profile.name }}</td>
+                        </tr>
                         <tr>
-                        <td>Website:</td>
-                        <td><a href="{{ profile.website }}">{{ profile.website }}</a></td>
-                      </tr>
+                          <td>City:</td>
+                          <td>{{ profile.city }}</td>
+                        </tr>
+                          <tr>
+                          <td>Genre:</td>
+                          <td>{{ profile.genre }}</td>
+                        </tr>
+                          <tr>
+                          <td>Website:</td>
+                          <td><a href="{{ profile.website }}">{{ profile.website }}</a></td>
+                        </tr>
+                        <tr>
+                          <td>Email:</td>
+                          <td><a href="mailto:{{ user.email }}">{{ username.email }}</a></td>
+                        </tr>
                       <tr>
-                        <td>Email:</td>
-                        <td><a href="mailto:{{ user.email }}">{{ username.email }}</a></td>
+                          <td>Leave a message:</td>
+                          <td>
+                              <form id="comment" method="post" action=".">
+  	                        {% csrf_token %}
+                                  <input id="btn-input" type="text" name="text" placeholder="Type your message here..." />
+  			                           <button type="submit" class="btn btn-warning btn-sm" id="btn-chat">
+  				                    Send
+  			                    </button>
+  	                        </form>
+                          </td>
                       </tr>
-                    <tr>
-                        <td>Send {{ profile.name }} a message:</td>
-                        <td>
-                            <form id="comment" method="post" action=".">
-	                        {% csrf_token %}
-                                <input id="btn-input" type="text" name="text" placeholder="Type your message here..." />
-			                           <button type="submit" class="btn btn-warning btn-sm" id="btn-chat">
-				                    Send
-			                    </button>
-	                        </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                  </table>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
-            </div>
-                </div>
-            </div>
-        </div>
+                  </div>
+              </div>
+          </div>
+      </div>
     </div>
+    <div class="col-lg-3"></div>
 
 
 

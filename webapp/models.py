@@ -59,9 +59,9 @@ class FanProfile(models.Model):
 class Event(models.Model):
     band = models.ForeignKey(BandProfile) # Events are created by bands.
     name = models.CharField(max_length=128, unique=True)
-    price = models.FloatField(default=0.0)
+    price = models.FloatField()
     rating = Rating()
-    date = models.DateField(("Date"), default=datetime.date.today)
+    date = models.DateField(("Date"), default=datetime.date.today, null=True, blank=True)
     city = models.CharField(max_length=32)
     venue = models.CharField(max_length=128)
     views = models.IntegerField(default=0)

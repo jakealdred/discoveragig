@@ -16,6 +16,10 @@
                             {% csrf_token %}
                             <button type="submit" name="achievement" class="btn btn-primary">I went there!</button>
                             </form>
+                        {% else %}
+                        {{ event.price }}
+                        {{ event.name }}
+                        {{ event.date }}
 						{% endif %}
 					</div>
 
