@@ -169,22 +169,34 @@ def event(request, event_name):
     context_dict = {}
     try:
         event = Event.objects.get(slug=event_name)
-		#context_dict['picture'] = event.picture
     except:
         event = None
 
     if request.method == 'POST':
-        comment_form = None
-        try:
-            comment_form = CommentForm(data=request.POST)
-        except:
-            pass
+        profile = UserProfile.objects.get(user=request.user)
+        fan = FanProfile.objects.get(profile=profile)
+        if 'achievement' in request.POST:
+            name = '+25xp for going to a gig %s' % event.name
+            achievement = Achievement.objects.create(fan=fan, name=name)
+            fan.xp += 25
+            fan.save()
+        else:
+            comment_form = None
+            try:
+                comment_form = CommentForm(data=request.POST)
+            except:
+                pass
 
-        if comment_form:
-            comment = comment_form.save(commit=False)
-            comment.event = event
-            comment.user = UserProfile.objects.get(user=request.user)
-            comment.save()
+            if comment_form:
+                comment = comment_form.save(commit=False)
+                comment.event = event
+                comment.user = profile
+                comment.save()
+                name = '+10xp for writing a comment about a gig %s' % event.name
+                achievement = Achievement.objects.create(fan=fan, name=name)
+                fan.xp += 10
+                fan.save()
+
 
     if event:
         try:
@@ -236,12 +248,17 @@ def band(request, username):
             feedback_form = FeedbackForm(data=request.POST)
         except:
             pass
-
+        fan_profile = UserProfile.objects.get(user=request.user)
+        fan = FanProfile.objects.get(profile=fan_profile)
         if feedback_form:
             feedback = feedback_form.save(commit=False)
             feedback.band = band
-            feedback.user = UserProfile.objects.get(user=request.user)
+            feedback.user = fan_profile
             feedback.save()
+            name = '+50xp for leaving band %s a feedback.' % profile.name
+            achievement = Achievement.objects.create(fan=fan, name=name)
+            fan.xp += 50
+            fan.save()
 
     if band:
         context_dict['band'] = band
@@ -264,19 +281,14 @@ def create_event(request):
         band = None
 
     if request.method == 'POST':
-       # print request.FILES['data']
         if band:
         
             event_form = EventForm(data=request.POST)
-           # f = DateRangeForm(request.POST)
-           # context_dict['form'] = f
             if event_form.is_valid():
                 event = event_form.save(commit=False)
                 event.band = band
-                #event.date = timezone.now()
                 if 'picture' in request.FILES:
-                    event.picture = request.FILES['picture']
-                #event.time =    
+                    event.picture = request.FILES['picture'] 
                 event.save()
                 return HttpResponseRedirect('/event/%s' % event.slug)
                 if 'picture' in request.FILES:
@@ -289,9 +301,6 @@ def create_event(request):
             
 				print event_form.errors
     else:
-       # f = DateRangeForm()
-       # context_dict.update(csrf(request))
-       # context_dict['form'] = f
         if band:
             event_form = EventForm()
             context_dict['event_form'] = event_form
@@ -333,7 +342,16 @@ def wall(request):
     return render(request, 'webapp/wall.html', context_dict)
 
 
-
+def achievements(request):
+    context_dict = {}
+    try:
+        profile = UserProfile.objects.get(user=request.user)
+        fan = FanProfile.objects.get(profile=profile)
+        achievements = Achievement.objects.filter(fan=fan)
+        context_dict['achievements'] = achievements
+    except:
+        context_dict['error'] = 'You have no achievements yet.'
+    return render(request, 'webapp/achievements.html', context_dict)
 
 
 # Sends context info to all the templates
@@ -350,13 +368,13 @@ def get_context_info(request):
     except:
         pass
     try:
-        profile = FanProfile(profile=user_profile)
-        context_dict['user_type'] = 'fan'
+        profile = FanProfile.objects.get(profile=user_profile)
+        context['user_type'] = 'fan'
     except:
         pass
     try:
-        profile = BandProfile(profile=user_profile)
-        context_dict['user_type'] ='band'
+        profile = BandProfile.objects.get(profile=user_profile)
+        context['user_type'] ='band'
     except:
         pass
 

@@ -9,41 +9,16 @@
 			<div class="row">
 				
 				<!---panel starts-->
+					<div class="col-lg-1"></div>
 					<div class="col-lg-7">
-					  <section id="main">
-						  <div class="frame">
-							<a href="#">
-								<span class="caption">
-									<h2>Venue : {{event.venue}}</h2>
-								<p class="desc">The one of the greatest venues in Scotland is happy to welcome the band and their magnificient fans</p>
-								</span>
-							  <img src="http://www.igtwa.org/Images/Public/Awards/2009/Ceremony-Venue1-lg.jpg">
-							</a>
-						  </div>
-						  
-						  <div class="frame">
-									<a href="#">
-								<span class="caption">
-									<h2>Prices:</h2>
-								<p class="desc">Although price is £{{event.price}} the gig is worth that</p>
-								</span>
-								<img src="http://www.fiscalliteracy.com/wp-content/uploads/2011/03/pile-of-cash2.gif">
-								</a>
-							</div>
-						  <div class="frame">
-							<a href="{{event.website}}">
-								<span class="caption">
-									<h2>Tickets</h2>
-								<p class="desc">Press to buy your tickets</p> 
-								</span>
-							<img src="http://nyc.wordcamp.org/2014/files/2014/04/raffle-tickets.jpg">
-							</a>  
-						  </div>
-						</section>
+						{% if user_type == fan %}
+						<form id="achievement" method="post" action=".">
+						{% csrf_token %}
+						<button type="submit" name="achievement" class="btn btn-primary">I went there!</button>
+						</form>
+						{% endif %}
 					</div>
-				<!---panel ends-->
-				<!---panel starts-->
-				<!---panel ends-->
+
 						<div class="col-lg-3">
 							<div class="chat-panel panel panel-default">
 								<div class="panel-heading text-center">
@@ -98,6 +73,7 @@
 							<!-- /.panel-footer -->
 						</div>
 						<!-- end of chat panel-->
+						<div class="col-lg-1"></div>
 					</div>
 					<!-- end of column -->
 			 </div>

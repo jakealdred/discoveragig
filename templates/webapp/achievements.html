@@ -1,0 +1,16 @@
+{% extends 'webapp/base.html' %}
+
+{% block title %}Achievements{% endblock %}
+
+{% block main_body %}
+
+{% if user_type == fan %}
+{% if achievements %}
+	{% for a in achievements %}
+	{{ a.name }}<br/>
+	{% endfor %}
+{% else %}
+{{ error }}
+{% endif %}
+{% endif %}
+{% endblock %}

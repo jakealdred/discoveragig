@@ -51,7 +51,6 @@ class FanProfile(models.Model):
     profile = models.OneToOneField(UserProfile)
     xp = models.IntegerField(default=0)
     title = models.CharField(max_length=32)
-    mood = models.TextField(max_length=256)
         
     def __unicode__(self):
         return self.profile.user.username
@@ -83,7 +82,6 @@ class Event(models.Model):
 class Achievement(models.Model):
     fan = models.ForeignKey(FanProfile)
     name = models.CharField(max_length=16)
-    xp = models.IntegerField(default=5)
 
     def __unicode__(self):
         return self.name
