@@ -22,17 +22,17 @@
 
     <!-- Custom CSS -->
     <link href="{{STATIC_URL}}css/sb-admin-2.css" rel="stylesheet">
-    <link href="{{STATIC_URL}}css/fan.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="{{STATIC_URL}}css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
     <!-- background -->
     <link href="{{STATIC_URL}}css/event_page.css" rel="stylesheet">
     <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="/media/admin/css/forms.css"/>
+<link rel="stylesheet" type="text/css" href="/media/admin/css/forms.css"/>
     <link rel="stylesheet" type="text/css" href="/media/admin/css/base.css"/>
     <link rel="stylesheet" type="text/css" href="/media/admin/css/global.css"/>
     <link rel="stylesheet" type="text/css" href="/media/admin/css/widgets.css"/>
-    <link href="{{STATIC_URL}}css/submit-button.css" rel="stylesheet">
 
     <!-- Forms -->
     <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/forms.css"/>
@@ -40,74 +40,105 @@
 
 <!-- add styles -->
 <link href="css/ui-lightness/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" type="text/css" /> 
-<!-- add scripts -->
-<script src="js/jquery.191.js"></script>
-<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
 
 </head>
 
 <body>
-<div class="background-image">
-</div>
 	<div id="wrapper">
 	    <!-- Navigation -->
-	    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0;  ">
-	        <div class="navbar-header">
-	            <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static "img/logo.jpg" %}" style="opacity:1 "></a>  
-	        </div>
-	        <div class="navbar-header">
-	        	<a class="navbar-brand" href="{% url 'index' %}">Discoveragig</a>
-	        </div>
-	        <!-- /.navbar-header -->
+	    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-botton:0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'index' %}">DiscoverAGig</a>
+            </div>
+            <!-- /.navbar-header -->
 
-	        <!--Navigation bar in the right -->
-	        <ul class="nav navbar-top-links navbar-right">
+            <ul class="nav navbar-top-links navbar-right">
                 {% if user.is_authenticated %}
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i> {{ user.username }} <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="{% url 'fan' user.username %}"><i class="fa fa-user fa-fw"></i> Profile</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
+                    <li>
+                        <a href="{% url 'index' %}">
+                        {% if user_type == 'fan' %}
+                            <i class="fa fa-home fa-fw"></i> <b>Home</b>
+                        {% else %}
+                            <i class="fa fa-th-list fa-fw"></i> <b>Wall</b>
+                        {% endif %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'events' %}">
+                            <i class="fa fa-music fa-fw"></i> <b>Gigs</b>
+                        </a>
+                    </li>
+                    {% if user_type == 'fan' %}
+                    <!-- Fan Top Bar -->
+                    <li>
+                        <a href="{% url 'achievements' %}">
+                            <i class="fa fa-trophy fa-fw"></i> <b>Achievements</b>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="{% url 'create_event' %}">
+                            <i class="fa fa-thumb-tack fa-fw"></i> <b>Create Event</b>
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-user fa-fw"></i> <b>{{ user.username }}</b> <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                            {% if user_type == 'fan' %}
+                            <a href="{% url 'fan' user.username %}">
+                            {% else %}
+                            <a href="{% url 'band' user.username %}">
+                            {% endif %}
+                            <i class="fa fa-user fa-fw"></i> My Profile</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="{% url 'edit_profile' %}"><i class="fa fa-gear fa-fw"></i> Edit Profile</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            </li>
+                        </ul>
+                        <!-- /.dropdown-user -->
+                    </li>
                 {% else %}
-
-                <li>
-                	<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                		<i class="fa fa-lock fa-fw"></i><b>Register</b> <i class="fa fa-caret-down"></i>
-                	</a>
-                	<ul class="dropdown-menu">
-                		<li><a href="{% url 'register' "band" %}">As a Band</a>
-                		</li>
-						<li><a href="{% url 'register' "fan" %}">As a Fan</a>
-                		</li>
-                	</ul>
-                </li>
+                    <li>
+                        <a href="{% url 'events' %}">
+                            <i class="fa fa-music fa-fw"></i> <b>Events</b>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-key fa-fw"></i> <b>Register</b> <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="{% url 'register' 'fan' %}"><i class="fa fa-user fa-fw"></i> Fan</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="{% url 'register' 'band' %}"><i class="fa fa-group fa-fw"></i> Band</a>
+                            </li>
+                        </ul>
+                        <!-- /.dropdown-user -->
+                    </li>
                 {% endif %}
-                <!-- /.dropdown -->
-			</ul>
-	        <!-- /.navbar-static-side -->
+            </ul>
 	    </nav>
 
         <!-- Page Content -->
         <div class="container-fluid">
-            <div class="row" style = padding-top:10% >
-                <!-- /.col-lg-12 -->
+            <div class="row">
                 {% block main_body %}{% endblock %}
             </div>
-            <!-- /.row -->
         </div>
-            <!-- /.container-fluid -->
-        <!-- /#page-wrapper -->
 
 	</div>
 	<!-- end of wrapper -->
@@ -125,6 +156,17 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{STATIC_URL}}js/javascript/js/sb-admin-2.js"></script>
+
+    <!-- Other -->
+    <script src="js/jquery.191.js"></script>
+    <script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+      <script>
+         $(function() {
+            $( "#datepicker-1" ).datepicker();
+         });
+      </script>
 	<!-- fade-->
 	<script src="{{STATIC_URL}}js/javascript/js/event_page.js"></script>
     	<script src="{{STATIC_URL}}js/javascript/js/submit-button.js"></script>
