@@ -5,7 +5,7 @@
 {% block main_body %}
     <div class="panel panel-info">
             <div class="panel-heading">
-              <h3 class="panel-title">{{ user.username }}</h3>
+              <h3 class="panel-title">{{ username.username }}</h3>
             </div>
             <div class="panel-body">
               <div class="row">
@@ -31,7 +31,7 @@
                       </tr>
                       <tr>
                         <td>Email:</td>
-                        <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                        <td><a href="mailto:{{ user.email }}">{{ username.email }}</a></td>
                       </tr>
                     <tr>
                         <td>Send {{ profile.name }} a message:</td>
@@ -39,7 +39,7 @@
                             <form id="comment" method="post" action=".">
 	                        {% csrf_token %}
                                 <input id="btn-input" type="text" name="text" placeholder="Type your message here..." />
-			                    <button type="submit" class="btn btn-warning btn-sm" id="btn-chat">
+			                           <button type="submit" class="btn btn-warning btn-sm" id="btn-chat">
 				                    Send
 			                    </button>
 	                        </form>

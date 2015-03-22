@@ -123,11 +123,13 @@ def edit_profile(request):
     context_dict = {}
     user = request.user
     if request.method == 'POST':
+        print request.FILES
         user_profile_form = UserProfileForm(data=request.FILES)
 
         # Tries to retrieve UserProfile
         try:
             user_profile = UserProfile.objects.get(user=user)
+            print "yy"
         except:
             user_profile = user_profile_form.save(commit=False)
             user_profile.user = user
@@ -136,52 +138,12 @@ def edit_profile(request):
 
             if 'picture' in request.FILES:
                 user_profile.picture = request.FILES['picture']
-                user_profile.save()
+            user_profile.save()
 
-            # Tries to retrieve Band profile
-            try:
-                profile_form = BandProfileForm(data=request.FILES)
-                profile = BandProfile.objects.get(profile=user_profile)
-                user_type = 'band'
-            except:
-                pass
-
-            # If it's not a band, retrieves a fan profile
-            try:
-                profile_form = BandProfileForm(data=request.FILES)
-                profile = FanProfile.objects.get(profile=user_profile)
-                user_type = 'band'
-            except:
-                # By default, if there is no band or fan profiles, creates a fan profile.
-                #profile_form = FanProfileForm(data=request.FILES)
-                #profile = profile_form.save(commit=False)
-                pass
-
-            if profile_form.is_valid():
-                profile.save()
-                if user_type == 'fan':
-                    return HttpResponseRedirect('/fan/%s' % user.username)
-                else:
-                    return HttpResponseRedirect('/band/%s' % user.username)
+            return HttpResponseRedirect('/')
 
         else:
             print user_profile_form.errors
-    else:
-        user_profile_form = UserProfileForm()
-        context_dict['user_profile_form'] = user_profile_form
-        
-        try:
-            profile_form = BandProfileForm()
-            profile = BandProfile.objects.get(profile=user_profile)
-        except:
-            pass
-
-        try:
-            profile_form = BandProfileForm(data=request.FILES)
-            profile = FanProfile.objects.get(profile=user_profile)
-        except:
-            pass
-        context_dict['profile_form'] = profile_form
     return render(request, 'webapp/edit_profile.html', context_dict)
 
 
@@ -296,6 +258,7 @@ def band(request, username):
             fan.save()
 
     if band:
+        context_dict['username'] = request.user
         context_dict['band'] = band
         context_dict['profile'] = profile
         if user == request.user:

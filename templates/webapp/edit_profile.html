@@ -3,11 +3,51 @@
 {% block title %}Edit Profile{% endblock %}
 
 {% block main_body %}
- <form id="edit_profile" method="post" action="{% url 'edit_profile' %}" enctype="multipart/form-data">
-{% csrf_token %}
-{{ user_profile_form.as_p }}
-{{ profile_form.as_p }}
-<input type="submit" name="submit" value="Edit" />
-</form>
 
+    <form id="edit_profile" method="post" action="/edit_profile/" enctype="multipart/form-data">
+        <div class="row">
+
+            {% csrf_token %}
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="fa fa-quote-right fa-fw"></i></span>
+                    <input type="text" class="form-control" name="name" placeholder="Name">
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="fa fa-share fa-fw"></i></span>
+                    <input type="text" class="form-control" name="website" placeholder="Website">
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="fa fa-home fa-fw"></i></span>
+                    <select name="city" class="form-control">
+                        <option value="" disabled selected>City</option>
+                        {% for city in cities %}
+                        <option>{{ city }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="fa fa-play fa-fw"></i></span>
+                    <select name="genre" class="form-control">
+                        <option value="" disabled selected>Genre</option>
+                        {% for genre in genres %}
+                        <option>{{ genre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group input-group">
+                    <input type="file" name="picture">
+                </div>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-5"></div>
+            <div class="col-lg-2">
+                <button type="submit" name="submit" class="btn btn-primary btn-lg btn-block">Update</button>
+            </div>
+            <div class="col-lg-5"></div>
+        </div>
+    </form>
 {% endblock %}
