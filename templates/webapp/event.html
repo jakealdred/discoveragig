@@ -11,11 +11,11 @@
 				<!---panel starts-->
 					<div class="col-lg-1"></div>
 					<div class="col-lg-7">
-						{% if user_type == fan %}
-						<form id="achievement" method="post" action=".">
-						{% csrf_token %}
-						<button type="submit" name="achievement" class="btn btn-primary">I went there!</button>
-						</form>
+						{% if user_type == 'fan' %}
+                            <form id="achievement" method="post" action=".">
+                            {% csrf_token %}
+                            <button type="submit" name="achievement" class="btn btn-primary">I went there!</button>
+                            </form>
 						{% endif %}
 					</div>
 

@@ -23,6 +23,36 @@ def index(request):
     context_dict['events'] = event_list
     context_dict['upcoming'] = upcoming_list 
     
+    try:
+        profile = UserProfile.objects.get(user=request.user)
+        band = BandProfile.objects.get(profile=profile)
+    except:
+        band = None
+    
+    if band:
+        try:
+            feedback = Feedback.objects.filter(band=band)
+            context_dict['feedback'] = feedback
+        except:
+            feedback = None
+
+        if feedback:
+            even = []
+            odd = []
+            i = 0
+            for fb in feedback:
+                if i%2==1:
+                    odd += [fb]
+                else:
+                    even += [fb]
+                i += 1
+
+
+            context_dict['even'] = even
+            context_dict['odd'] = odd
+    
+    
+    
     return render(request, 'webapp/index.html', context_dict)
 
 def user_login(request):
@@ -313,39 +343,6 @@ def create_event(request):
             context_dict['error'] = 'Only bands can create new events.'
 
     return render(request, 'webapp/create_event.html', context_dict)
-
-
-def wall(request):
-    context_dict = {}
-    try:
-        profile = UserProfile.objects.get(user=request.user)
-        band = BandProfile.objects.get(profile=profile)
-    except:
-        band = None
-    
-    if band:
-        try:
-            feedback = Feedback.objects.filter(band=band)
-            context_dict['feedback'] = feedback
-        except:
-            feedback = None
-
-        if feedback:
-            even = []
-            odd = []
-            i = 0
-            for fb in feedback:
-                if i%2==1:
-                    odd += [fb]
-                else:
-                    even += [fb]
-                i += 1
-
-
-            context_dict['even'] = even
-            context_dict['odd'] = odd
-    return render(request, 'webapp/wall.html', context_dict)
-
 
 def achievements(request):
     context_dict = {}
