@@ -1,4 +1,4 @@
-@-webkit-keyframes fade-in {
+﻿@-webkit-keyframes fade-in {
   0%   { opacity: 0; }
   100% { opacity: 1; }
 }
@@ -129,4 +129,51 @@ box-sizing: border-box;
 .frame a:hover .caption p {
   display: block;
   margin-bottom: 20px;
+}
+
+/* toogle button */
+input[type="checkbox"].graphic {
+    display: none;
+}
+ 
+input[type="checkbox"].graphic + label,
+input[type="checkbox"].graphic + label:after {
+    padding: 0;
+    display: inline-block;
+}
+input[type="checkbox"].graphic + label {
+    position: relative;
+    /* style */
+    font-size: 36px;
+    font-family: Verdana;
+    text-shadow: 0 0 9px rgba(0,0,0,0.4);
+    color: #333;
+}
+input[type="checkbox"].graphic + label:after {
+    position: absolute;
+    right: 0;
+    /* style */
+    width:68px;
+    left: -75px;
+    top: -15px;
+    bottom: -15px;
+}
+
+/* checked state indicator images */
+input[type="checkbox"].graphic + label:after { background:url(http://cl.ly/image/0B0E1b0z003I/cross.png) no-repeat 0px 50%;
+  content: '';
+  z-index:2;
+  transform:scale(0.75) rotate(0deg);
+}
+input[type="checkbox"].graphic:checked + label:after { background-image:url(http://cl.ly/image/0v3Y1M1D2l1f/tick.png);
+}
+/* animation (only works in Firefox) */
+input[type="checkbox"].graphic + label:hover::after  {
+  transform:scale(0.77) rotate(360deg);
+}
+input[type="checkbox"].graphic,
+input[type="checkbox"].graphic + label,
+input[type="checkbox"].graphic + label:after {
+  transition: all .5s cubic-bezier(1.000, -0.360, 0.000, 1.385); /* custom */
+  transition-timing-function: cubic-bezier(1.000, -0.360, 0.000, 1.385); /* custom */
 }
