@@ -79,7 +79,7 @@ def register(request, user_type):
             # Auto login.
             user_login(request)
         else:
-            print user_form.errors, form.errors, user_profile_form.errors
+            pass #print user_form.errors, form.errors, user_profile_form.errors
 
         return HttpResponseRedirect('/')
     else:
