@@ -224,6 +224,7 @@ def fan(request, username):
         fan = None
 
     if fan:
+        context_dict['username'] = user
         context_dict['fan'] = fan
         context_dict['profile'] = profile
         if user == request.user:
@@ -291,6 +292,8 @@ def create_event(request):
                 event.band = band
                 if 'picture' in request.FILES:
                     event.picture = request.FILES['picture']
+                else:
+                    event.picture = 'img/gig_logo.jpg'
 
                 event.save()
 

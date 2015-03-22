@@ -5,18 +5,17 @@
 {% block main_body %}
 
 {% if event %}
-                    {% if user_type == 'fan' %}
                         <div class="row">
-                <div class="col-lg-1"></div>
-				<div class="col-lg-6">
+                <div class="col-lg-2"></div>
+				<div class="col-lg-5">
                     <div class="panel panel-primary">
             <div class="panel-heading">
               <h3 class="panel-title">{{ event.name }}</h3>
             </div>
             <div class="panel-body">
               <div class="row">
-                <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="/media/{{ event.picture }}" height="150" width="150" class="img-circle"> </div>
-                <div class=" col-md-9 col-lg-9 ">
+                <div class="col-md-5 col-lg-5 " align="center"> <img alt="User Pic" src="/media/{{ event.picture }}" height="150" width="150" class="img-circle"> </div>
+                <div class=" col-md-7 col-lg-7 ">
                   <table class="table table-user-information">
                     <tbody>
                       <tr>
@@ -46,6 +45,7 @@
                         <td width="250px">Description:</td>
                         <td>{{ event.description }}</td>
                       </tr>
+                      {% if user_type == 'fan' %}
                      <tr>
                         <td>Did you go?</td>
                         <td><form id="achievement" method="post" action=".">
@@ -53,16 +53,14 @@
                             <button type="submit" name="achievement" class="btn btn-primary">I went there!</button>
                             </form></td>
                       </tr>
+                      {% endif %}
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
                 </div>
-
-                        {% endif %}
 					</div>
-                    <div class="col-lg-1"></div>
 						<div class="col-lg-3">
 							<div class="chat-panel panel panel-default">
 								<div class="panel-heading text-center">
@@ -117,7 +115,7 @@
 							<!-- /.panel-footer -->
 						</div>
 						<!-- end of chat panel-->
-						<div class="col-lg-1"></div>
+						<div class="col-lg-2"></div>
 					</div>
 					<!-- end of column -->
 			 </div>
