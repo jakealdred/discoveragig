@@ -1,9 +1,20 @@
 {% extends 'webapp/base.html' %}
 
 {% block title %}Events{% endblock %}
-
+{%load staticfiles%}
 {% block main_body %}
-{% for event in events %}
-<a href="{% url 'event' event.slug %}">{{ event }}</a>
-{% endfor %}
+
+
+
+	<div id="panel">
+		<ul class="menu">
+        {% for event in events %}
+			<li>
+            	<img src="/media/{{event.picture}}">
+				<span class="title">{{event}}</span> 
+				<div class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse interdum dictum scelerisque. Morbi eu euismod lorem.</div>
+			</li>
+        {% endfor %}            
+		</ul>
+	</div>
 {% endblock %}
