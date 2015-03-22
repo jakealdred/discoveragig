@@ -7,6 +7,7 @@
 {% block main_body %}
 {% if user.is_authenticated %}
     {% if user_type == 'band' %}
+        {% if feedback %}
         <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
@@ -74,6 +75,15 @@
             </div>
             <div class="col-lg-2"></div>
         </div>
+        {% else %}
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8 text-center">
+                    <div class="huge">Your Wall is empty</div>
+                </div>
+                <div class="col-lg-2"></div>
+            </div>
+        {% endif %}
 {% elif user_type == 'fan' %}
     <div class="row">
         <div class="col-lg-1"></div>
