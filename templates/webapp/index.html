@@ -6,8 +6,75 @@
 
 {% block main_body %}
 {% if user.is_authenticated %}
-
-{% if user_type == fan %}
+    {% if user_type == 'band' %}
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">
+                    <div class="huge">The Wall</div>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <ul class="timeline">
+                        {% for fb in feedback %}
+                        {% if fb in odd %}
+                        <li>
+                            <div class="timeline-badge">
+                                {% if fb.user.picture %}
+                                <img src="/media/{{ fb.user.picture }}" width="50" height="50" alt="User Avatar" class="img-circle">
+                                {% else %}
+                                <img src="/static/img/user_avatar.png" width="50" height="50" alt="User Avatar" class="img-circle">
+                                {% endif %}
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <h4 class="timeline-title"><a href="{% url 'fan' fb.user.user.username %}">{{ fb.user.user.username }}</a></h4>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <small class="text-muted text-right"><i class="fa fa-clock-o"></i> {{ fb.date }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="timeline-body">
+                                    <p>{{ fb.text }}</p>
+                                </div>
+                            </div>
+                        </li>
+                        {% else %}
+                        <li class="timeline-inverted">
+                            <div class="timeline-badge">
+                                {% if fb.user.picture %}
+                                <img src="/media/{{ fb.user.picture }}" width="50" height="50" alt="User Avatar" class="img-circle">
+                                {% else %}
+                                <img src="/static/img/user_avatar.png" width="50" height="50" alt="User Avatar" class="img-circle">
+                                {% endif %}
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="row">
+                                        <div class="col-lg-8">
+                                            <h4 class="timeline-title"><a href="{% url 'fan' fb.user.user.username %}">{{ fb.user.user.username }}</a></h4>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <small class="text-muted text-right"><i class="fa fa-clock-o"></i> {{ fb.date }}</small>
+                                        </div>
+                                    </div>
+                                <div class="timeline-body">
+                                    <p>{{ fb.text }}</p>
+                                </div>
+                            </div>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+{% elif user_type == 'fan' %} 
 {% else %}
     <div class="row">
     </div>
