@@ -137,13 +137,13 @@ def edit_profile(request):
 
         if 'picture' in request.FILES:
             user_profile.picture = request.FILES['picture']
-        if 'name' in request.FILES:
+        if request.POST['name'] != '':
             user_profile.name = request.POST['name']
-        if 'website' in request.FILES:
+        if request.POST['website'] != '':
             user_profile.website = request.POST['website']
-        if 'city' in request.FILES:
+        if 'city' in request.POST:
             user_profile.city = request.POST['city']
-        if 'genre' in request.FILES:
+        if 'genre' in request.POST:
             user_profile.genre = request.POST['genre']
         user_profile.save()
 

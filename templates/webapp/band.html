@@ -7,7 +7,7 @@
   <div class="row">
     <div class="col-lg-3"></div>
     <div class="col-lg-6">
-      <div class="panel panel-info">
+      <div class="panel panel-primary">
               <div class="panel-heading">
                 <h3 class="panel-title">{{ username.username }}</h3>
               </div>
@@ -37,18 +37,20 @@
                           <td>Email:</td>
                           <td><a href="mailto:{{ user.email }}">{{ username.email }}</a></td>
                         </tr>
-                      <tr>
-                          <td>Leave a message:</td>
-                          <td>
-                              <form id="comment" method="post" action=".">
-  	                        {% csrf_token %}
-                                  <input id="btn-input" type="text" name="text" placeholder="Type your message here..." />
-  			                           <button type="submit" class="btn btn-warning btn-sm" id="btn-chat">
-  				                    Send
-  			                    </button>
-  	                        </form>
-                          </td>
-                      </tr>
+                        {% if user_type == 'fan' %}
+                        <tr>
+                            <td>Leave a message:</td>
+                            <td>
+                                <form id="comment" method="post" action=".">
+    	                        {% csrf_token %}
+                                    <input id="btn-input" type="text" name="text" placeholder="Type your message here..." />
+    			                           <button type="submit" class="btn btn-primary btn-sm" id="btn-chat">
+    				                    Send
+    			                    </button>
+    	                        </form>
+                            </td>
+                        </tr>
+                        {% endif %}
                       </tbody>
                     </table>
                   </div>
@@ -60,8 +62,4 @@
       </div>
     </div>
     <div class="col-lg-3"></div>
-
-
-
-
 {% endblock %}
