@@ -16,11 +16,12 @@ def index(request):
         message = user_login(request)
         context_dict['message'] = message
     
-    
+    upcoming_list = Event.objects.order_by('date')[:5]
     #band_list = BandProfile.objects.order_by('-views')[:5]
     event_list = Event.objects.order_by('-views')[:5]
     #context_dict['bands'] = band_list
     context_dict['events'] = event_list
+    context_dict['upcoming'] = upcoming_list 
     
     return render(request, 'webapp/index.html', context_dict)
 
