@@ -50,7 +50,6 @@ def register(request, user_type):
     context_dict = {}
 
     if request.method == 'POST':
-        form = None
         user_form = UserForm(data=request.POST)
         user_profile_form = UserProfileForm(data=request.POST)
         
@@ -78,10 +77,8 @@ def register(request, user_type):
 
             # Auto login.
             user_login(request)
-        else:
-            pass #print user_form.errors, form.errors, user_profile_form.errors
 
-        return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/')
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
@@ -175,12 +172,18 @@ def event(request, event_name):
 
     if request.method == 'POST':
         profile = UserProfile.objects.get(user=request.user)
-        fan = FanProfile.objects.get(profile=profile)
+        try:
+            fan = FanProfile.objects.get(profile=profile)
+        except:
+            pass
         if 'achievement' in request.POST:
-            name = '+25xp for going to a gig %s' % event.name
-            achievement = Achievement.objects.create(fan=fan, name=name)
-            fan.xp += 25
-            fan.save()
+            try:
+                name = '+25xp for going to a gig %s' % event.name
+                achievement = Achievement.objects.create(fan=fan, name=name)
+                fan.xp += 25
+                fan.save()
+            except:
+                pass
         else:
             comment_form = None
             try:
@@ -193,12 +196,13 @@ def event(request, event_name):
                 comment.event = event
                 comment.user = profile
                 comment.save()
-                name = '+10xp for writing a comment about a gig %s' % event.name
-                achievement = Achievement.objects.create(fan=fan, name=name)
-                fan.xp += 10
-                fan.save()
-
-
+                try:      
+                    name = '+10xp for writing a comment about a gig %s' % event.name
+                    achievement = Achievement.objects.create(fan=fan, name=name)
+                    fan.xp += 10
+                    fan.save()
+                except:
+                    pass
     if event:
         try:
             comments = Comment.objects.filter(event=event).order_by('date')
@@ -365,7 +369,7 @@ def get_context_info(request):
     # Current user info
     try:
         user = request.user
-        user_profile = UserProfile(user=user)
+        user_profile = UserProfile.objects.get(user=user)
     except:
         pass
     try:
@@ -378,6 +382,7 @@ def get_context_info(request):
         context['user_type'] ='band'
     except:
         pass
+
 
     # Lists of bands and fans
     bands = BandProfile.objects.all()
