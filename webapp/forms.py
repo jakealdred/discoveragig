@@ -43,9 +43,10 @@ class EventForm(forms.ModelForm):
     picture = forms.ImageField(required=False)
     price = forms.FloatField(required=False)
     date = forms.DateField(required=False)
+    genre = forms.CharField(required=False)
     class Meta:
         model = Event
-        fields = ('name', 'city', 'website', 'picture', 'price', 'venue','date')
+        fields = ('name', 'city', 'website', 'picture', 'price', 'venue','date','genre')
 
 class CommentForm(forms.ModelForm):
     class Meta:

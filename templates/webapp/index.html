@@ -74,11 +74,9 @@
             </div>
             <div class="col-lg-2"></div>
         </div>
-{% elif user_type == 'fan' %} 
-{% else %}
+{% elif user_type == 'fan' %}
     <div class="row">
-        <div class="col-lg-1">
-        </div>
+        <div class="col-lg-1"></div>
         <div class="col-lg-3">
               <div class="panel panel-primary">
 				    <div class="panel-heading">
@@ -92,7 +90,7 @@
 			</ul>
         </div>
 
-        <div class="col-lg-3">
+        <div class="col-lg-4">
               <div class="panel panel-primary">
 				    <div class="panel-heading">
 						<h1 class="panel-title">Upcoming Gigs</h1>
@@ -104,8 +102,19 @@
 				{% endfor %}
 			</ul>
         </div>
-        <div class="col-lg-1">
+        <div class="col-lg-3">
+              <div class="panel panel-primary">
+				    <div class="panel-heading">
+						<h1 class="panel-title">Recommended Gigs</h1>
+					</div>
+			  </div>
+            <ul class="list-group">
+				{% for recommended_event in recommended %}
+				 <h1><li class="list-group-item"><a href={% url 'event'  recommended_event.slug %}>{{ recommended_event.name }} at {{recommended_event.venue}} ( {{recommended_event.date}} )</a></li></h1>
+				{% endfor %}
+			</ul>
         </div>
+        <div class="col-lg-1"></div>
     </div>
 {% endif %}
 

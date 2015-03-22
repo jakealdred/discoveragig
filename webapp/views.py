@@ -20,15 +20,28 @@ def index(request):
     #band_list = BandProfile.objects.order_by('-views')[:5]
     event_list = Event.objects.order_by('-views')[:5]
     #context_dict['bands'] = band_list
+
+
+
     context_dict['events'] = event_list
     context_dict['upcoming'] = upcoming_list 
-    
+
     try:
         profile = UserProfile.objects.get(user=request.user)
         band = BandProfile.objects.get(profile=profile)
     except:
         band = None
-    
+
+    try:
+        recommended_events = Event.objects.filter(genre = profile.genre)[:5]
+    except:
+        pass
+
+    try:
+        context_dict['recommended'] = recommended_events
+    except:
+        pass
+
     if band:
         try:
             feedback = Feedback.objects.filter(band=band)
@@ -50,9 +63,7 @@ def index(request):
 
             context_dict['even'] = even
             context_dict['odd'] = odd
-    
-    
-    
+
     return render(request, 'webapp/index.html', context_dict)
 
 def user_login(request):
