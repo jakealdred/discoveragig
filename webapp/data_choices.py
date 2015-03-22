@@ -1,7 +1,9 @@
 
-GENRES = ['Rock', 'Indie', 'Pop', 'Metal', 'Alternative']
+GENRES = ['Alternative', 'BritPop', 'Celtic', 'Classical', 'Country', 'Dance', 'EDM', 'Folk', 'Grime', 'Hip-hop',
+          'Metal', 'Pop', 'Rock' ]
 
-CITIES = [ 'Glasgow', 'Edinburgh', 'Aberdeen', 'London', 'Dundee',]
+CITIES = ['Aberdeen','Bath', 'Birmingham', 'Cardiff','Edinburgh', 'Glasgow', 'Inverness', 'Liverpool', 'London',
+          'Manchester', 'Newcastle', 'Perth', 'Stirling']
 
 TITLES = [
     (0,'Novice'),

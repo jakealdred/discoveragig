@@ -74,11 +74,9 @@
             </div>
             <div class="col-lg-2"></div>
         </div>
-{% elif user_type == 'fan' %} 
-{% else %}
+{% elif user_type == 'fan' %}
     <div class="row">
-        <div class="col-lg-1">
-        </div>
+        <div class="col-lg-1"></div>
         <div class="col-lg-3">
               <div class="panel panel-primary">
 				    <div class="panel-heading">
@@ -87,12 +85,12 @@
 			  </div>
 			<ul class="list-group">
 				{% for event in events %}
-				 <h1><li class="list-group-item"><a href={% url 'event'  event.slug %}>{{ event.name }} at {{event.venue}}</a></li></h1>
+				 <li class="list-group-item"><a href={% url 'event'  event.slug %}>{{ event.name }} at {{event.venue}}</a></li>
 				{% endfor %}
 			</ul>
         </div>
 
-        <div class="col-lg-3">
+        <div class="col-lg-4">
               <div class="panel panel-primary">
 				    <div class="panel-heading">
 						<h1 class="panel-title">Upcoming Gigs</h1>
@@ -100,12 +98,23 @@
 			  </div>
             <ul class="list-group">
 				{% for upcoming_event in upcoming %}
-				 <h1><li class="list-group-item"><a href={% url 'event'  upcoming_event.slug %}>{{ upcoming_event.name }} at {{upcoming_event.venue}} ( {{upcoming_event.date}} )</a></li></h1>
+				 <li class="list-group-item"><a href={% url 'event'  upcoming_event.slug %}>{{ upcoming_event.name }} at {{upcoming_event.venue}} ( {{upcoming_event.date}} )</a></li>
 				{% endfor %}
 			</ul>
         </div>
-        <div class="col-lg-1">
+        <div class="col-lg-3">
+              <div class="panel panel-primary">
+				    <div class="panel-heading">
+						<h1 class="panel-title">Recommended Gigs</h1>
+					</div>
+			  </div>
+            <ul class="list-group">
+				{% for recommended_event in recommended %}
+				 <li class="list-group-item"><a href={% url 'event'  recommended_event.slug %}>{{ recommended_event.name }} at {{recommended_event.venue}} ( {{recommended_event.date}} )</a></li>
+				{% endfor %}
+			</ul>
         </div>
+        <div class="col-lg-1"></div>
     </div>
 {% endif %}
 
