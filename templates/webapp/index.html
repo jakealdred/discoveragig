@@ -85,7 +85,7 @@
 			  </div>
 			<ul class="list-group">
 				{% for event in events %}
-				 <h1><li class="list-group-item"><a href={% url 'event'  event.slug %}>{{ event.name }} at {{event.venue}}</a></li></h1>
+				 <li class="list-group-item"><a href={% url 'event'  event.slug %}>{{ event.name }} at {{event.venue}}</a></li>
 				{% endfor %}
 			</ul>
         </div>
@@ -98,7 +98,7 @@
 			  </div>
             <ul class="list-group">
 				{% for upcoming_event in upcoming %}
-				 <h1><li class="list-group-item"><a href={% url 'event'  upcoming_event.slug %}>{{ upcoming_event.name }} at {{upcoming_event.venue}} ( {{upcoming_event.date}} )</a></li></h1>
+				 <li class="list-group-item"><a href={% url 'event'  upcoming_event.slug %}>{{ upcoming_event.name }} at {{upcoming_event.venue}} ( {{upcoming_event.date}} )</a></li>
 				{% endfor %}
 			</ul>
         </div>
@@ -110,7 +110,7 @@
 			  </div>
             <ul class="list-group">
 				{% for recommended_event in recommended %}
-				 <h1><li class="list-group-item"><a href={% url 'event'  recommended_event.slug %}>{{ recommended_event.name }} at {{recommended_event.venue}} ( {{recommended_event.date}} )</a></li></h1>
+				 <li class="list-group-item"><a href={% url 'event'  recommended_event.slug %}>{{ recommended_event.name }} at {{recommended_event.venue}} ( {{recommended_event.date}} )</a></li>
 				{% endfor %}
 			</ul>
         </div>
