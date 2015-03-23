@@ -1,0 +1,21 @@
+{% extends 'webapp/base.html' %}
+  {% block title %}List of Bands{% endblock %}
+  {% block main_body %}
+    <div class="col-lg-3"></div>
+  <div class="col-lg-6">
+              <div class="panel panel-primary">
+				    <div class="panel-heading">
+						<h1 class="panel-title">List of Bands</h1>
+					</div>
+			  </div>
+            <ul class="list-group">
+				{% for bands in band_list %}
+				 <li class="list-group-item">{{ bands.name }} are a {{ bands.genre}} band from {{ bands.city }} 
+                    find out more about them <a href={% url 'band'  bands.user %}>here</a></li> 
+				{% endfor %}
+			</ul>
+        </div>
+    <div class="col-lg-3"></div>
+{% endblock %}
+
+

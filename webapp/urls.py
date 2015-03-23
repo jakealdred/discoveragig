@@ -12,5 +12,6 @@ urlpatterns = patterns('',
     url(r'^achievements/$', views.achievements, name="achievements"),
     url(r'^create_event', views.create_event, name='create_event'),
     url(r'^register/(?P<user_type>[\w\-]+)/$', views.register, name='register'),
-    url(r'^logout/$', views.user_logout, name='logout')
+    url(r'^logout/$', views.user_logout, name='logout'),
+    url(r'^bandlist/$', views.band_list, name='band_list')
 )

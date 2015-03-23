@@ -96,6 +96,11 @@
                         </a>
                     </li>
                     {% endif %}
+                    <li>
+                        <a href="{% url 'band_list' %}">
+                            <i class="fa fa-music fa-fw"></i> <b>Bands</b>
+                        </a>
+                    </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="fa fa-user fa-fw"></i> <b>{{ user.username }}</b> <i class="fa fa-caret-down"></i>

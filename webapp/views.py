@@ -274,6 +274,18 @@ def band(request, username):
 
     return render(request, 'webapp/band.html', context_dict)
 
+def band_list(request):
+    context_dict = {}
+    user_list = UserProfile.objects.all()
+    band_list=[]
+    for user in user_list:
+        try:
+            band=BandProfile.objects.get(profile=user)
+            band_list += [user]
+        except:
+            pass
+    context_dict['band_list'] = band_list
+    return render(request, 'webapp/band_list.html', context_dict)
 
 @login_required
 def create_event(request):
