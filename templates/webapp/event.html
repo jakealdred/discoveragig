@@ -6,8 +6,8 @@
 
 {% if event %}
                         <div class="row">
-                <div class="col-lg-2"></div>
-				<div class="col-lg-5">
+                <div class="col-lg-1"></div>
+				<div class="col-lg-6">
                     <div class="panel panel-primary">
             <div class="panel-heading">
               <h3 class="panel-title">{{ event.name }}</h3>
@@ -45,12 +45,17 @@
                         <td width="250px">Description:</td>
                         <td>{{ event.description }}</td>
                       </tr>
+                      {{ event.visited }}
                       {% if user_type == 'fan' %}
                      <tr>
                         <td>Did you go?</td>
                         <td><form id="achievement" method="post" action=".">
                             {% csrf_token %}
-                            <button type="submit" name="achievement" class="btn btn-primary">I went there!</button>
+                            {% if user in visited %}
+                            <button type="submit" class="btn btn-primary disabled">I went there!</button>
+                            {% else %}
+                            <button type="submit" id="btn" name="achievement" class="btn btn-primary" onClick="document.getElementById('btn').style.display='hidden'">I went there!</button>
+                            {% endif %}
                             </form></td>
                       </tr>
                       {% endif %}

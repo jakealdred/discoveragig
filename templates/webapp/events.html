@@ -2,10 +2,10 @@
 
 {% block title %}Events{% endblock %}
 {% block main_body %}
-	<div id="panel">
+	<div id="panel" style="opacity:.8">
 		<ul class="menu">
         {% for event in events %}
-			<li><a href="{% url 'event' event.slug %}">
+			<li><a style=""href="{% url 'event' event.slug %}">
             	<img src="/media/{{ event.picture }}">
 				<span class="title">{{event}}</span> 
 				<div class="content">{{ event.description }}</div></a>

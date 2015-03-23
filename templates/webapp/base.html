@@ -8,9 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-     <link rel="icon" href = "/static/img/logo.jpg">
+    <link rel="icon" href = "/static/img/logo.jpg">
+
     <title>{% block title %}{% endblock %}</title>
+
 	{% load staticfiles %}
+
     <!-- Bootstrap Core CSS -->
     <link href="{{STATIC_URL}}css/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -42,13 +45,11 @@
 
     <!-- Forms -->
     <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/forms.css"/>
-
-                 <div class="overlay">
-                 </div>
     <!-- add styles -->
     <link href="css/ui-lightness/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" type="text/css" /> 
 </head>
 <body>
+<div class="overlay"></div>
 	<div id="wrapper">
 	    <!-- Navigation -->
 	    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-botton:0">
@@ -60,16 +61,18 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="{% url 'index' %}">Discover A Gig</a>
+                {% if user_type == 'fan' %}
                 <div>
                         <strong>The Beast</strong>
                         <span class="pull-right text-muted ">{{xps}}% Complete</span>
-                    <div class="progress progress-striped active" style = "height:12px">
+                    <div class="progress progress-striped active" style = "height:11px">
                         <div class="progress-bar progress-bar-success " role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{xps}}%">
                             <span class="sr-only">{{xps}}% Complete (success)</span>
                         </div>
 
                    </div>
                 </div>
+                {% endif %}
             </div>
 
             <!-- /.navbar-header -->
@@ -156,13 +159,10 @@
 
         <!-- Page Content -->
         <div class="container-fluid">
-            <div class="row">
                 {% block main_body %}{% endblock %}
-            </div>
         </div>
 
 	</div>
-
 	<!-- end of wrapper -->
 
 

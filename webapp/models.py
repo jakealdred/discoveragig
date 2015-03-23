@@ -71,7 +71,6 @@ class Event(models.Model):
     slug = models.SlugField(unique=True)
     genre = models.CharField(max_length=32)
     description = models.TextField()
-	
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)

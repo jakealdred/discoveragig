@@ -9,6 +9,8 @@ from webapp.data_choices import TITLES, ACHIEVEMENTS, CITIES, GENRES
 
 from django.utils import timezone
 
+visits = {}
+
 def index(request):
 
     context_dict = {}
@@ -160,8 +162,13 @@ def user_logout(request):
 def events(request):
     return render(request, 'webapp/events.html', {'events': Event.objects.all()})
 
+
 def event(request, event_name):
     context_dict = {}
+    try:
+        l = visits[event]
+    except:
+        l = []
     try:
         event = Event.objects.get(slug=event_name)
     except:
@@ -179,6 +186,7 @@ def event(request, event_name):
                 achievement = Achievement.objects.create(fan=fan, name=name)
                 fan.xp += 25
                 fan.save()
+                visits[event] = l + [request.user]
             except:
                 pass
         else:
@@ -211,6 +219,10 @@ def event(request, event_name):
         context_dict['rating'] = rating
     else:
         return HttpResponseRedirect('/create_event/')
+    try:
+        context_dict['visited'] = visits[event]
+    except:
+        pass
     return render(request, 'webapp/event.html', context_dict)
 
 

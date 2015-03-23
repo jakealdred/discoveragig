@@ -96,7 +96,27 @@
 			  </div>
 			<ul class="list-group">
 				{% for event in events %}
-				 <li class="list-group-item"><a href={% url 'event'  event.slug %}>{{ event.name }} at {{event.venue}}</a></li>
+				 <li class="list-group-item"><a href={% url 'event'  event.slug %}>
+                                 <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-calendar fa-3x"></i>
+                                </div>
+                                <div class="col-xs-9">
+                                    <div class="row">
+                                    <div class="col-xs-12">
+                                    <h4>13</h4>
+                                    </div>
+                                    </div>
+                                                                        <div class="row">
+                                    <div class="col-xs-12">
+                                    <h4>13</h4>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>            
+                 </a></li>
 				{% endfor %}
 			</ul>
         </div>
