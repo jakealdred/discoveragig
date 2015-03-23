@@ -349,6 +349,7 @@ def get_context_info(request):
         pass
     try:
         profile = FanProfile.objects.get(profile=user_profile)
+        context['xps'] = profile.xp/30
         context['user_type'] = 'fan'
     except:
         pass
