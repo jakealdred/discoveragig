@@ -4,7 +4,7 @@
     background: linear-gradient(
       rgba(0, 0, 0, 0.8), 
       rgba(0, 0, 0, 0.5)
-    ),url(http://www.wholles.com/wp-content/uploads/2014/01/Headphones-Music-Wallpaper.jpg) repeat-y center center fixed; 
+    ),url(/static/img/background.jpg) repeat-y center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

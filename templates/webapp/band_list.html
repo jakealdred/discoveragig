@@ -9,9 +9,35 @@
 					</div>
 			  </div>
             <ul class="list-group">
-				{% for bands in band_list %}
-				 <li class="list-group-item">{{ bands.name }} are a {{ bands.genre}} band from {{ bands.city }} 
-                    find out more about them <a href={% url 'band'  bands.user %}>here</a></li> 
+				{% for band in band_list %}
+				<li class="list-group-item"><a href="{% url 'band' band.user.username %}">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <img src="/media/{{ band.picture }}" width="70" height="70" alt="Band's picture" class="img-circle" />
+                            </div>
+                            <div class="col-xs-9">
+                                <div class="row">
+				                   	<div class="panel panel-green">
+									<div class="panel-heading">
+										<h1 class="panel-title">{{ band.name }}</h1>
+									</div>
+									</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                    </div>
+                                    <div class="col-lg-4">
+                                    	<b>City:</b> {{ band.city }}
+                                    </div>
+                                    <div class="col-lg-4">
+                                    	<b>Genre:</b> {{ band.genre }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div></a>
+				</li> 
 				{% endfor %}
 			</ul>
         </div>

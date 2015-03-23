@@ -209,6 +209,8 @@ def event(request, event_name):
                 except:
                     pass
     if event:
+        event.views += 1
+        event.save()
         try:
             comments = Comment.objects.filter(event=event).order_by('date')
             context_dict['comments'] = comments

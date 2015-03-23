@@ -94,31 +94,31 @@
 						<h1 class="panel-title">Most Viewed Gigs</h1>
 					</div>
 			  </div>
-			<ul class="list-group">
-				{% for event in events %}
-				 <li class="list-group-item"><a href={% url 'event'  event.slug %}>
-                                 <div class="panel-heading">
+            <ul class="list-group">
+                {% for event in events %}
+                 <li class="list-group-item"><a href={% url 'event'  event.slug %}>
+                        <div class="panel-heading">
                             <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-calendar fa-3x"></i>
-                                </div>
                                 <div class="col-xs-9">
                                     <div class="row">
-                                    <div class="col-xs-12">
-                                    <h4>13</h4>
+                                        <div class="col-lg-12 text-right">
+                                        <h4>{{ event.name }}</h4>
+                                        </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 text-right">
+                                        <b>Views:</b> {{ event.views }}
+                                        </div>
                                     </div>
-                                                                        <div class="row">
-                                    <div class="col-xs-12">
-                                    <h4>13</h4>
-                                    </div>
-                                    </div>
+                                </div>
+                                <div class="col-xs-3 text-right">
+                                    <i class="fa fa-heart fa-3x"></i>
                                 </div>
                             </div>
                         </div>            
                  </a></li>
-				{% endfor %}
-			</ul>
+                {% endfor %}
+            </ul>
         </div>
 
         <div class="col-lg-4">
@@ -129,7 +129,26 @@
 			  </div>
             <ul class="list-group">
 				{% for upcoming_event in upcoming %}
-				 <li class="list-group-item"><a href={% url 'event'  upcoming_event.slug %}>{{ upcoming_event.name }} at {{upcoming_event.venue}} ( {{upcoming_event.date}} )</a></li>
+				<li class="list-group-item"><a href={% url 'event'  upcoming_event.slug %}>
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-calendar fa-3x"></i>
+                            </div>
+                            <div class="col-xs-6 text-center">
+                                <div class="row">
+                                    Date: {{ upcoming_event.date }}
+                                </div>
+                                <div class="row">
+                                    <h4>{{ upcoming_event.name }}</h4>
+                                </div>
+                            </div>
+                            <div class="col-xs-3 text-right">
+                                <i class="fa fa-calendar fa-3x"></i>
+                            </div>
+                        </div>
+                    </div>  
+                </li>
 				{% endfor %}
 			</ul>
         </div>
@@ -140,8 +159,24 @@
 					</div>
 			  </div>
             <ul class="list-group">
-				{% for recommended_event in recommended %}
-				 <li class="list-group-item"><a href={% url 'event'  recommended_event.slug %}>{{ recommended_event.name }} at {{recommended_event.venue}} ( {{recommended_event.date}} )</a></li>
+				{% for event in recommended %}
+				<li class="list-group-item"><a href={% url 'event' event.slug %}>
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-star fa-3x"></i>
+                            </div>
+                            <div class="col-xs-9">
+                                <div class="row">
+                                    <h4>{{ event.name }}</h4>
+                                </div>
+                                <div class="row">
+                                    Genre: {{ event.genre }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                </li>
 				{% endfor %}
 			</ul>
         </div>
@@ -151,45 +186,98 @@
 
 {% else %}
     <div class="row">
-        <div class="col-lg-1">
-        </div>
-        <div class="col-lg-3">
+        <div class="col-lg-4">
               <div class="panel panel-primary">
 				    <div class="panel-heading">
 						<h1 class="panel-title">Most Viewed Gigs</h1>
 					</div>
 			  </div>
-			<ul class="list-group">
-				{% for event in events %}
-				 <h3><li class="list-group-item"><a href={% url 'event'  event.slug %}>{{ event.name }} at {{event.venue}}</a></li></h1>
-				{% endfor %}
-			</ul>
+            <ul class="list-group">
+                {% for event in events %}
+                 <li class="list-group-item"><a href={% url 'event'  event.slug %}>
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                <img src="/media/{{ event.picture }}" width="60" height="60" alt="Events's picture" class="img-circle" />
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="row">
+                                        <div class="col-lg-12 text-right">
+                                        <h4>{{ event.name }}</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 text-right">
+                                        <b>Views:</b> {{ event.views }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 text-right">
+                                    <i class="fa fa-heart fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>            
+                 </a></li>
+                {% endfor %}
+            </ul>
         </div>
         <div class="col-lg-4">
+            <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">Log in!</h1>
+                    </div>
+            </div>
             <form class="form-signin" role="form" method="post" action=".">
-                {% csrf_token %}
-
-                <h3 class="form-signin-heading">Please Login</h3>
-                <input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text" required autofocus=""/>
-                <input type="password" class="form-control" placeholder="Password" id="id_password" name="password" type="password" required />
-
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-8">
+                    {% csrf_token %}
+                    <input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text" required autofocus=""/>
+                    <input type="password" class="form-control" placeholder="Password" id="id_password" name="password" type="password" required />
+                    </div>
+                    <div class="col-lg-2"></div>
+                </div>
+                <div class="row"><br/></div>
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-6">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+                    </div>
+                    <div class="col-lg-3"></div>
+                </div>
             </form>
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-4">
               <div class="panel panel-primary">
 				    <div class="panel-heading">
 						<h1 class="panel-title">Upcoming Gigs</h1>
 					</div>
 			  </div>
             <ul class="list-group">
-				{% for upcoming_event in upcoming %}
-				 <h3><li class="list-group-item"><a href={% url 'event'  upcoming_event.slug %}>{{ upcoming_event.name }} at {{upcoming_event.venue}} ( {{upcoming_event.date}} )</a></li></h1>
-				{% endfor %}
-			</ul>
+                {% for upcoming_event in upcoming %}
+                <li class="list-group-item"><a href={% url 'event'  upcoming_event.slug %}>
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-calendar fa-3x"></i>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="row">
+                                    <b>Date:</b> {{ upcoming_event.date }}
+                                </div>
+                                <div class="row">
+                                    <h4>{{ upcoming_event.name }}</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <img src="/media/{{ upcoming_event.picture }}" width="60" height="60" alt="Events's picture" class="img-circle" />
+                            </div>
+                        </div>
+                    </div>  
+                </li>
+                {% endfor %}
+            </ul>
         </div>        
-        <div class="col-lg-1">
-        </div>
     </div>
 {% endif %}
 {% endblock %} 
