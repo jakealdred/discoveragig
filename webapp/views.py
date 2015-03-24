@@ -5,7 +5,7 @@ from webapp.forms import UserForm, UserProfileForm, FanProfileForm, BandProfileF
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
-from webapp.data_choices import TITLES, ACHIEVEMENTS, CITIES, GENRES
+from webapp.data_choices import CITIES, GENRES
 
 from django.utils import timezone
 
