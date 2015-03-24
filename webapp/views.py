@@ -5,7 +5,7 @@ from webapp.forms import UserForm, UserProfileForm, FanProfileForm, BandProfileF
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
-from webapp.data_choices import TITLES, ACHIEVEMENTS, CITIES, GENRES
+from webapp.data_choices import CITIES, GENRES
 
 from django.utils import timezone
 
@@ -76,12 +76,7 @@ def user_login(request):
     user = authenticate(username=username, password=password)
 
     if user:
-
-        if user.is_active:
-            login(request, user)
-            return 'Success'
-        else:
-            return "Your Rango account is disabled."
+        login(request, user)
     else:
         print "Invalid login details: {0}, {1}".format(username, password)
         return "Invalid login details supplied."
@@ -89,7 +84,6 @@ def user_login(request):
 
 def register(request, user_type):
 
-    registered = False
     context_dict = {}
 
     if request.method == 'POST':
@@ -116,7 +110,6 @@ def register(request, user_type):
                 profile = FanProfile.objects.get_or_create(profile=user_profile)
             else:
                 profile = BandProfile.objects.get_or_create(profile=user_profile)
-            registered = True
 
             # Auto login.
             user_login(request)
@@ -125,10 +118,9 @@ def register(request, user_type):
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
+        context_dict['profile_form'] = profile_form
+        context_dict['user_form'] = user_form
     
-    context_dict['registered'] = registered
-    context_dict['user_form'] = user_form
-    context_dict['profile_form'] = profile_form
     return render(request, 'webapp/register.html', context_dict)
 
 
@@ -152,6 +144,33 @@ def edit_profile(request):
         return HttpResponseRedirect('/')
 
     return render(request, 'webapp/edit_profile.html', {})
+
+
+@login_required
+def password_change(request):
+    dict = {}
+    if request.method == 'POST':
+        try:
+            current_password = request.POST['current_password']
+            new_password = request.POST['new_password']
+            repeat_password = request.POST['repeat_password']
+        except:
+            dict['error_message'] = 'All the fields must be provided.'
+        
+        if authenticate(username=request.user.username, password=current_password) and new_password == repeat_password:
+            request.user.set_password(new_password)
+            request.user.save()
+
+            # Auto login with new details.
+            user = authenticate(username=request.user.username, password=new_password)
+            login(request, user)
+
+            dict['success'] = 'Your password has been changed successfully.'
+        else:
+            dict['error_message'] = 'Some of the details you provided were wrong.'
+
+        user_login(request)
+    return render(request, 'webapp/password_change.html', dict)
 
 
 @login_required
@@ -228,6 +247,7 @@ def event(request, event_name):
     return render(request, 'webapp/event.html', context_dict)
 
 
+@login_required
 def fan(request, username):
     context_dict = {}
     try:
@@ -344,7 +364,7 @@ def achievements(request):
         achievements = Achievement.objects.filter(fan=fan)
         context_dict['achievements'] = achievements
     except:
-        context_dict['error'] = 'You have no achievements yet.'
+        pass
     return render(request, 'webapp/achievements.html', context_dict)
 
 

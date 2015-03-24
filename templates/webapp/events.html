@@ -2,6 +2,7 @@
 
 {% block title %}Events{% endblock %}
 {% block main_body %}
+{% if events %}
 	<div id="panel" style="opacity:.8">
 		<ul class="menu">
         {% for event in events %}
@@ -13,4 +14,9 @@
         {% endfor %}            
 		</ul>
 	</div>
+{% else %}
+<div class="row">
+<h1 class="huge" style="color:#fff;">There are no events</h1>
+</div>
+{% endif %}
 {% endblock %}

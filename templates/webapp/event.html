@@ -20,7 +20,7 @@
                     <tbody>
                       <tr>
                         <td width="250px">Band Name:</td>
-                        <td>{{ event.band }}</td>
+                        <td><a href="{% url 'band' event.band.profile.user.username %}">{{ event.band.profile.name }}</td>
                       </tr>
                       <tr>
                         <td>Venue</td>
@@ -35,7 +35,12 @@
                         <td>{{ event.date }}</td>
                       </tr>
                       <td>Price:</td>
-                        <td>£{{ event.price }}</td>
+                        <td>
+                        {% if event.price == 0.0 %}
+                        Free
+                        {% else %}
+                        £{{ event.price }}
+                        {% endif %}</td>
                       </tr>
                         <tr>
                         <td>Tickets:</td>

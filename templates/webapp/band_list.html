@@ -9,6 +9,7 @@
 					</div>
 			  </div>
             <ul class="list-group">
+            {% if band_list %}
 				{% for band in band_list %}
 				<li class="list-group-item"><a href="{% url 'band' band.user.username %}">
                     <div class="panel-heading">
@@ -40,6 +41,9 @@
 				</li> 
 				{% endfor %}
 			</ul>
+            {% else %}
+            <h1 class="huge" style="color:#fff;">There are no events</h1>
+            {% endif %}
         </div>
     <div class="col-lg-3"></div>
 {% endblock %}
