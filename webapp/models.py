@@ -5,25 +5,6 @@ from django.template.defaultfilters import slugify
 from webapp.data_choices import CITIES, GENRES
 import datetime
 
-class Rating():
-
-    def __init__(self):
-        self.rating_sum = 0.0
-        self.total = 0
-        self.average_rating = 0.0
-        self.all_ratings = {}
-
-    def get(self, user):
-        if user not in self.all_ratings:
-            return None
-        return self.all_ratings[user]
-
-    def add(self, user, rating):
-        self.all_ratings[user] = rating
-        self.total += 1
-        self.rating_sum += rating
-        self.average_rating = self.rating_sum / self.total
-
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
@@ -39,9 +20,6 @@ class UserProfile(models.Model):
 
 class BandProfile(models.Model):
     profile = models.OneToOneField(UserProfile)
-    views = models.IntegerField(default=0)
-    mood = models.TextField(max_length=256)
-    rating = Rating()
 
     def __unicode__(self):
         return self.profile.user.username
@@ -59,13 +37,10 @@ class FanProfile(models.Model):
 class Event(models.Model):
     band = models.ForeignKey(BandProfile) # Events are created by bands.
     name = models.CharField(max_length=128, unique=True)
-    price = models.FloatField()
-    rating = Rating()
     date = models.DateField(("Date"), default=datetime.date.today, null=True, blank=True)
     city = models.CharField(max_length=32)
     venue = models.CharField(max_length=128)
     views = models.IntegerField(default=0)
-    likes = models.IntegerField(default=0)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     website = models.URLField(blank=True)
     slug = models.SlugField(unique=True)

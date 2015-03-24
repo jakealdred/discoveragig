@@ -36,7 +36,7 @@
                       </tr>
                       <td>Price:</td>
                         <td>
-                        {% if event.price == 0.0 %}
+                        {% if price == None or event.price == 0.0 %}
                         Free
                         {% else %}
                         £{{ event.price }}

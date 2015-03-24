@@ -46,7 +46,7 @@ def index(request):
 
     if band:
         try:
-            feedback = Feedback.objects.filter(band=band)
+            feedback = Feedback.objects.filter(band=band).order_by('date')
             context_dict['feedback'] = feedback
         except:
             feedback = None
@@ -83,6 +83,9 @@ def user_login(request):
 
 
 def register(request, user_type):
+
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/')
 
     context_dict = {}
 
@@ -235,9 +238,7 @@ def event(request, event_name):
             context_dict['comments'] = comments
         except:
             pass
-        rating = event.rating
         context_dict['event'] = event
-        context_dict['rating'] = rating
     else:
         return HttpResponseRedirect('/create_event/')
     try:
@@ -254,6 +255,7 @@ def fan(request, username):
         user = User.objects.get(username=username)
         profile = UserProfile.objects.get(user=user)
         fan = FanProfile.objects.get(profile=profile)
+        print 'fsn'
     except:
         fan = None
 

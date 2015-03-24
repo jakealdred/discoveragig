@@ -4,112 +4,125 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'discoveragig.settings')
 import django
 django.setup()
 
-from webapp.models import BandProfile, FanProfile, Achievement, Event, Comment, Feedback, Rating
+from webapp.models import UserProfile, BandProfile, FanProfile, Event, Comment, Feedback
 from django.contrib.auth.models import User
 
 
 def populate():
-	PASSWORD = '1234'
+	PASSWORD = '0000'
 
 	# Test Bands
-	band_act = add_band('act', PASSWORD, 'Act', 'Hey everyone!', 30, 'ED', 'metal')
-	band_one = add_band('one', PASSWORD, 'One', 'This is the best band.', 13, 'GL', 'rock')
-	band_random = add_band('random', PASSWORD, 'RDom')
+	print 'Adding Bands'
+	band_act = add_band('act', PASSWORD, 'The Act', 'Glasgow', 'BritPop', 'profile_images/band.jpg')
+	band_one = add_band('one', PASSWORD, 'Band One', 'Edinburgh', 'Rock', 'profile_images/bs.png')
+	band_random = add_band('random', PASSWORD, 'RDom', 'Aberdeen', 'BritPop', 'profile_images/band.jpg')
+	band_best = add_band('best', PASSWORD, 'BestBest', 'Glasgow', 'Alternative', 'profile_images/bs.png')
 
 	# Test Fans
-	fan_roger = add_fan('roger', PASSWORD, 99, 1, 'GL', 'pop')
-	fan_bob = add_fan('bobybob', PASSWORD, 1001, 0, 'ED', 'rock')
-	fan_spinner = add_fan('spinner', PASSWORD)
+	print 'Adding Fans'
+	fan_roger = add_fan('roger', PASSWORD, 'Roger', 'Edinburgh', 'BritPop', 'profile_images/bs.png')
+	fan_bob = add_fan('bobybob', PASSWORD, 'Robert', 'Glasgow', 'Alternative', 'profile_images/gb.png')
+	fan_spinner = add_fan('spinner', PASSWORD, 'Steven', 'Glasgow', 'Metal', 'profile_images/lm.jpg')
 
 	# Test Events
-	event_act = add_event(band_act, 'First Act Concert', 17.0, 'GL', 'GUU Venue', 35, 5)
-	event_act2 = add_event(band_act, 'Second Act Concert', 10.0, 'ED', 'Edinburgh Uni', 150, 200)
-	event_random = add_event(band_random, 'RandomRandom!!!', 5, 'AB', 'Aberdeen venue', 3, 25)
-	event_one = add_event(band_one, 'One', 7, 'GL', 'Park', 81, 0)
+	print 'Adding Events'
+	event_act = add_event(band_act, 'First Act Concert', 'Glasgow', 'BritPop', 'Glasgow Concert Hall', '2015-05-13',
+						'Come to see the gig of this new and amazing band!!!', 71, 'cn1.jpg')
+	event_act2 = add_event(band_act, 'Second Act Concert', 'Glasgow', 'Rock', 'Glasgow Hall', '2015-04-13',
+						'Come to see us this weekend!', 0, 'cn2.jpeg')
+	event_random = add_event(band_random, 'RandomRandom!!!', 'Aberdeen', 'Alternative', 'The Hall', '2015-05-02',
+						'Great concert by a great band!!!', 21, 'cn1.jpg')
+	event_best = add_event(band_best, 'This week The Best', 'Glasgow', 'Rock', 'GUU', '2016-01-17',
+						'This weekend in GUU, we are waiting to see YOU!', 3, 'cn1.jpg')
+	event_one = add_event(band_one, 'One', 'Glasgow', 'Metal', 'QMU', '2015-12-01',
+						'The Park', 77, 'cn2.jpeg')
 
-	#Test Achievements
-	ac_1 = add_achievement(fan_spinner)
-	ac_2 = add_achievement(fan_spinner, 'LC', 25)
-	ac_3 = add_achievement(fan_bob)
-	ac_4 = add_achievement(fan_roger)
-	ac_5 = add_achievement(fan_roger, 'WG', 10)
 
 	#Test Comments
-	tc_1 = add_comment(fan_roger.user, event_one, 'Best performance by my favourite band ONE.')
-	tc_2 = add_comment(fan_spinner.user, event_random, 'Expected something slightly better...')
-	tc_3 = add_comment(fan_bob.user, event_act, 'Amazing!!! Hope the second concert will be just as great.')
-	tc_4 = add_comment(fan_spinner.user, event_one, 'Good.')
-	tc_5 = add_comment(fan_bob.user, event_act2, 'Superb! Just like the first concert.')
-	tc_6 = add_comment(fan_roger.user, event_act, 'Yeeeeeeeessssss.')
+	print 'Adding Comments'
+	tc_1 = add_comment(fan_roger.profile, event_one, 'Best performance by my favourite band ONE.', '2015-03-01')
+	tc_2 = add_comment(fan_spinner.profile, event_random, 'Expected something slightly better...', '2015-01-01')
+	tc_3 = add_comment(fan_bob.profile, event_act, 'Amazing!!! Hope the second concert will be just as great.', '2015-03-13')
+	tc_4 = add_comment(fan_spinner.profile, event_one, 'Good.', '2015-02-14')
+	tc_5 = add_comment(fan_bob.profile, event_act2, 'Superb! Just like the first concert.', '2015-03-24')
+	tc_6 = add_comment(fan_roger.profile, event_act, 'Yeeeeeeeessssss.', '2015-01-01')
+	tc_7 = add_comment(fan_spinner.profile, event_best, 'Really good gig.', '2015-02-03')
+	tc_8 = add_comment(fan_roger.profile, event_act2, 'Such an amazing event.', '2015-02-06')
+	tc_9 = add_comment(fan_bob.profile, event_best, 'The last one was great. So was this on. Good job guys! Keep it up.', '2015-02-13')
 
 	#Test Feedbacks
-	tf_1 = add_feedback(fan_bob.user, band_one, 'My favourite band!!!')
-	tf_2 = add_feedback(fan_roger.user, band_act, 'Good stuff.')
-	tf_3 = add_feedback(fan_roger.user, band_random, 'Whatever...')
-	tf_4 = add_feedback(fan_spinner.user, band_act, 'Yes, YEs, YEsssssss')
-	tf_5 = add_feedback(fan_roger.user, band_random, 'SO RANDOM!')
+	print 'Adding Feedbacks'
+	tf_1 = add_feedback(fan_bob.profile, band_one, 'My favourite band!!!', '2015-01-17')
+	tf_2 = add_feedback(fan_roger.profile, band_act, 'Good stuff.', '2015-01-13')
+	tf_3 = add_feedback(fan_roger.profile, band_random, 'Whatever...', '2015-02-01')
+	tf_4 = add_feedback(fan_spinner.profile, band_act, 'Yes, YEs, YEsssssss', '2015-03-03')
+	tf_5 = add_feedback(fan_roger.profile, band_random, 'SO RANDOM!', '2015-03-24')
 
-	print 'Database has been successfully populated.'
 
-def add_band(username, password, band_name, mood='', views=0, city='GL', genre='rock'):
+
+def add_band(username, password, name, city, genre, picture):
 	user = User.objects.create_user(
 		username = username,
 		password = password,
 		email = 'test@testband.com')
 
-	band = BandProfile.objects.get_or_create(user=user, name=band_name)[0]
-	band.mood = mood
-	band.views = views
-	band.city = city
-	band.genre = genre
-	band.save()
+	profile = UserProfile.objects.get_or_create(user=user)[0]
+	profile.name = name
+	profile.city = city
+	profile.genre = genre
+	profile.website = 'http://www.band.com'
+	profile.picture = picture
+	profile.save()
+	band = BandProfile.objects.create(profile=profile)
 	return band
 
 
-def add_fan(username, password, xp=0, title=0, city='GL', genre='rock'):
+def add_fan(username, password, name, city, genre, picture):
 	user = User.objects.create_user(
 		username = username,
 		password = password,
 		email = 'test@testfan.com')
 
-	fan = FanProfile.objects.get_or_create(user=user)[0]
-	fan.xp = xp
-	fan.title = title
-	fan.city = city
-	fan.genre = genre
-	fan.save()
+	profile = UserProfile.objects.get_or_create(user=user)[0]
+	profile.name = name
+	profile.city = city
+	profile.genre = genre
+	profile.website = 'http://www.fan.com'
+	profile.picture = picture
+	profile.save()
+	fan = FanProfile.objects.create(profile=profile)
 	return fan
 
 
-def add_event(band, event_name, price=0.0, city='GL', venue='', views=0, likes=0):
-	event = Event.objects.get_or_create(band=band, name=event_name)[0]
-	event.price = price
+def add_event(band, name, city, genre, venue, date, description, views, picture):
+	event = Event.objects.get_or_create(band=band, name=name)[0]
 	event.city = city
+	event.genre = genre
 	event.venue = venue
 	event.views = views
-	event.likes = likes
+	event.date = date
+	event.description = description
+	event.website = 'event@suchevent.com'
+	event.picture = picture
 	event.save()
 	return event
 
 
-def add_achievement(fan, name='RG', xp=0):
-	achievement = Achievement.objects.get_or_create(fan=fan)[0]
-	achievement.name = name
-	achievement.xp = xp
-	achievement.save()
-	return achievement
-
-
-def add_comment(user, event, text):
+def add_comment(user, event, text, date):
 	comment = Comment.objects.get_or_create(user=user, event=event, text=text)[0]
+	comment.date = date
+	comment.save()
 	return comment
 
 
-def add_feedback(user, band, text):
+def add_feedback(user, band, text, date):
 	feedback = Feedback.objects.get_or_create(user=user, band=band, text=text)[0]
+	feedback.date = date
+	feedback.save()
 	return feedback
 
 # Start execution here!
 if __name__ == '__main__':
     print "Database is beeing populated..."
     populate()
+    print "Finished."
