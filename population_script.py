@@ -13,9 +13,9 @@ def populate():
 
 	# Test Bands
 	print 'Adding Bands'
-	band_act = add_band('act', PASSWORD, 'The Act', 'Glasgow', 'BritPop', 'profile_images/band.jpg')
+	band_act = add_band('act', PASSWORD, 'The Act', 'Glasgow', 'BritPop', 'profile_images/band.jpeg')
 	band_one = add_band('one', PASSWORD, 'Band One', 'Edinburgh', 'Rock', 'profile_images/bs.png')
-	band_random = add_band('random', PASSWORD, 'RDom', 'Aberdeen', 'BritPop', 'profile_images/band.jpg')
+	band_random = add_band('random', PASSWORD, 'RDom', 'Aberdeen', 'BritPop', 'profile_images/band.jpeg')
 	band_best = add_band('best', PASSWORD, 'BestBest', 'Glasgow', 'Alternative', 'profile_images/bs.png')
 
 	# Test Fans
