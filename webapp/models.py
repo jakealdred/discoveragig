@@ -49,6 +49,8 @@ class Event(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
+        if self.views < 0:
+            self.views = 0
         super(Event, self).save(*args, **kwargs)
         
     def __unicode__(self):

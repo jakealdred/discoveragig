@@ -250,7 +250,6 @@ def fan(request, username):
         user = User.objects.get(username=username)
         profile = UserProfile.objects.get(user=user)
         fan = FanProfile.objects.get(profile=profile)
-        print 'fsn'
     except:
         fan = None
 
